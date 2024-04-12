@@ -1,2 +1,5 @@
 .DS_STORE
 .vscode
+
+coverage
+node_modules

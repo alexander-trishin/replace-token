@@ -1,0 +1,16 @@
+name: Replace Token
+description: Replace tokens within a file
+author: Alexander Trishin
+
+branding:
+  icon: repeat
+  color: black
+
+inputs:
+  message:
+    description: Your message here
+    required: true
+
+runs:
+  using: node20
+  main: dist/index.js
