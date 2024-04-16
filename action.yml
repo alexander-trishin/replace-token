@@ -1,5 +1,5 @@
-name: Replace Token
-description: Replace tokens within a file
+name: Replace tokens in text files
+description: Replaces tokens in text files using variables defined in YAML or JSON format
 author: Alexander Trishin
 
 branding:
@@ -7,9 +7,58 @@ branding:
   color: black
 
 inputs:
-  message:
-    description: Your message here
+  target:
+    description: >
+      A multiline list of files to replace tokens in.
+
+      Each line supports glob pattern (uses '@actions/glob').
     required: true
+
+  encoding:
+    description: >
+      The encoding to read and write all files.
+
+      Accepted values:
+        - auto: detect encoding using chardet
+        - ascii
+        - utf-8
+        - utf-16le
+      Supported values: auto, ascii, utf-8, utf-16le.
+    default: auto
+
+  follow-symbolic-links:
+    description: Indicates whether to follow symbolic links while searching for target file(s).
+    default: true
+
+  token-prefix:
+    description: The token prefix for using custom token pattern.
+    default: ${{ '${{' }}
+
+  token-suffix:
+    description: The token suffix for using custom token pattern.
+    default: "}}"
+
+  variables:
+    description: >
+      A YAML formatted multiline string containing variable values (keys are case-insensitive).
+
+      May override values from `variables-json` and `variables-secret-json` if keys match.
+    default: ""
+
+  variables-json:
+    description: >
+      A JSON formatted multiline string containing additional variable values (keys are case-insensitive).
+
+      Values may be overwritten by `variables-secret-json` and `variables' if keys match.
+    default: ""
+
+  variables-secret-json:
+    description: >
+      A JSON formatted multiline string containing additional variable values (keys are case-insensitive, all values are
+      masked).
+
+      Values may be overwritten by `variables' if keys match.
+    default: ""
 
 runs:
   using: node20

@@ -14,16 +14,10 @@
     "endOfLine": "lf",
     "overrides": [
         {
-            "files": "*.yml",
+            "files": ["*.yml", "*.md"],
             "options": {
                 "tabWidth": 2,
                 "singleQuote": false
-            }
-        },
-        {
-            "files": "*.md",
-            "options": {
-                "tabWidth": 1
             }
         }
     ]

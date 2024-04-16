@@ -7,6 +7,10 @@ on:
       - main
       - releases/*
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
@@ -42,11 +46,39 @@ jobs:
     name: GitHub Actions Test
     runs-on: ubuntu-latest
 
+    env:
+      TEST_FILE_NAME: test-${{github.run_id}}.txt
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Create test file
+        run: |
+          touch $TEST_FILE_NAME
+
+          echo "${{ '\${{ HELLO_MESSAGE }}' }} ${{ '\${{ TEST_VARS_TEXT }}' }} ${{ '\${{ TEST_SECRETS_TEXT }}' }}" >> $TEST_FILE_NAME
+        shell: bash
+
       - name: Test Action
         uses: ./
         with:
-          message: Test CI message
+          target: ./${{ env.TEST_FILE_NAME }}
+          variables: >
+            - HELLO_MESSAGE: Hello!
+          variables-json: ${{ toJson(vars) }}
+          variables-secret-json: ${{ toJson(secrets) }}
+
+      - name: Verify results
+        run: |
+          read -r TEST_LINE<$TEST_FILE_NAME
+
+          if [[ "$TEST_LINE" != "$EXPECTED_LINE" ]] ; then
+            echo "The test data does not match:"
+            echo ""
+            diff <(echo "$TEST_LINE" ) <(echo "$EXPECTED_LINE")
+            exit 1
+          fi
+        shell: bash
+        env:
+          EXPECTED_LINE: Hello! ${{ vars.TEST_VARS_TEXT }} ${{ secrets.TEST_SECRETS_TEXT }}

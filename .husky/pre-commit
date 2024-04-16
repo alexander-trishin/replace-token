@@ -1,3 +1,5 @@
 npx tsc --noEmit
 npx eslint --fix . --max-warnings=0
 npx prettier --write . --log-level warn
+
+git add $(git diff --diff-filter=d --cached --name-only)

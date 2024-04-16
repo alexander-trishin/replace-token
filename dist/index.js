@@ -994,6 +994,1198 @@ exports.toCommandProperties = toCommandProperties;
 
 /***/ }),
 
+/***/ 8090:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.hashFiles = exports.create = void 0;
+const internal_globber_1 = __nccwpck_require__(8298);
+const internal_hash_files_1 = __nccwpck_require__(2448);
+/**
+ * Constructs a globber
+ *
+ * @param patterns  Patterns separated by newlines
+ * @param options   Glob options
+ */
+function create(patterns, options) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield internal_globber_1.DefaultGlobber.create(patterns, options);
+    });
+}
+exports.create = create;
+/**
+ * Computes the sha256 hash of a glob
+ *
+ * @param patterns  Patterns separated by newlines
+ * @param currentWorkspace  Workspace used when matching files
+ * @param options   Glob options
+ * @param verbose   Enables verbose logging
+ */
+function hashFiles(patterns, currentWorkspace = '', options, verbose = false) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let followSymbolicLinks = true;
+        if (options && typeof options.followSymbolicLinks === 'boolean') {
+            followSymbolicLinks = options.followSymbolicLinks;
+        }
+        const globber = yield create(patterns, { followSymbolicLinks });
+        return internal_hash_files_1.hashFiles(globber, currentWorkspace, verbose);
+    });
+}
+exports.hashFiles = hashFiles;
+//# sourceMappingURL=glob.js.map
+
+/***/ }),
+
+/***/ 1026:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getOptions = void 0;
+const core = __importStar(__nccwpck_require__(2186));
+/**
+ * Returns a copy with defaults filled in.
+ */
+function getOptions(copy) {
+    const result = {
+        followSymbolicLinks: true,
+        implicitDescendants: true,
+        matchDirectories: true,
+        omitBrokenSymbolicLinks: true
+    };
+    if (copy) {
+        if (typeof copy.followSymbolicLinks === 'boolean') {
+            result.followSymbolicLinks = copy.followSymbolicLinks;
+            core.debug(`followSymbolicLinks '${result.followSymbolicLinks}'`);
+        }
+        if (typeof copy.implicitDescendants === 'boolean') {
+            result.implicitDescendants = copy.implicitDescendants;
+            core.debug(`implicitDescendants '${result.implicitDescendants}'`);
+        }
+        if (typeof copy.matchDirectories === 'boolean') {
+            result.matchDirectories = copy.matchDirectories;
+            core.debug(`matchDirectories '${result.matchDirectories}'`);
+        }
+        if (typeof copy.omitBrokenSymbolicLinks === 'boolean') {
+            result.omitBrokenSymbolicLinks = copy.omitBrokenSymbolicLinks;
+            core.debug(`omitBrokenSymbolicLinks '${result.omitBrokenSymbolicLinks}'`);
+        }
+    }
+    return result;
+}
+exports.getOptions = getOptions;
+//# sourceMappingURL=internal-glob-options-helper.js.map
+
+/***/ }),
+
+/***/ 8298:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __asyncValues = (this && this.__asyncValues) || function (o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+};
+var __await = (this && this.__await) || function (v) { return this instanceof __await ? (this.v = v, this) : new __await(v); }
+var __asyncGenerator = (this && this.__asyncGenerator) || function (thisArg, _arguments, generator) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var g = generator.apply(thisArg, _arguments || []), i, q = [];
+    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
+    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
+    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+    function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
+    function fulfill(value) { resume("next", value); }
+    function reject(value) { resume("throw", value); }
+    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.DefaultGlobber = void 0;
+const core = __importStar(__nccwpck_require__(2186));
+const fs = __importStar(__nccwpck_require__(7147));
+const globOptionsHelper = __importStar(__nccwpck_require__(1026));
+const path = __importStar(__nccwpck_require__(1017));
+const patternHelper = __importStar(__nccwpck_require__(9005));
+const internal_match_kind_1 = __nccwpck_require__(1063);
+const internal_pattern_1 = __nccwpck_require__(4536);
+const internal_search_state_1 = __nccwpck_require__(9117);
+const IS_WINDOWS = process.platform === 'win32';
+class DefaultGlobber {
+    constructor(options) {
+        this.patterns = [];
+        this.searchPaths = [];
+        this.options = globOptionsHelper.getOptions(options);
+    }
+    getSearchPaths() {
+        // Return a copy
+        return this.searchPaths.slice();
+    }
+    glob() {
+        var e_1, _a;
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = [];
+            try {
+                for (var _b = __asyncValues(this.globGenerator()), _c; _c = yield _b.next(), !_c.done;) {
+                    const itemPath = _c.value;
+                    result.push(itemPath);
+                }
+            }
+            catch (e_1_1) { e_1 = { error: e_1_1 }; }
+            finally {
+                try {
+                    if (_c && !_c.done && (_a = _b.return)) yield _a.call(_b);
+                }
+                finally { if (e_1) throw e_1.error; }
+            }
+            return result;
+        });
+    }
+    globGenerator() {
+        return __asyncGenerator(this, arguments, function* globGenerator_1() {
+            // Fill in defaults options
+            const options = globOptionsHelper.getOptions(this.options);
+            // Implicit descendants?
+            const patterns = [];
+            for (const pattern of this.patterns) {
+                patterns.push(pattern);
+                if (options.implicitDescendants &&
+                    (pattern.trailingSeparator ||
+                        pattern.segments[pattern.segments.length - 1] !== '**')) {
+                    patterns.push(new internal_pattern_1.Pattern(pattern.negate, true, pattern.segments.concat('**')));
+                }
+            }
+            // Push the search paths
+            const stack = [];
+            for (const searchPath of patternHelper.getSearchPaths(patterns)) {
+                core.debug(`Search path '${searchPath}'`);
+                // Exists?
+                try {
+                    // Intentionally using lstat. Detection for broken symlink
+                    // will be performed later (if following symlinks).
+                    yield __await(fs.promises.lstat(searchPath));
+                }
+                catch (err) {
+                    if (err.code === 'ENOENT') {
+                        continue;
+                    }
+                    throw err;
+                }
+                stack.unshift(new internal_search_state_1.SearchState(searchPath, 1));
+            }
+            // Search
+            const traversalChain = []; // used to detect cycles
+            while (stack.length) {
+                // Pop
+                const item = stack.pop();
+                // Match?
+                const match = patternHelper.match(patterns, item.path);
+                const partialMatch = !!match || patternHelper.partialMatch(patterns, item.path);
+                if (!match && !partialMatch) {
+                    continue;
+                }
+                // Stat
+                const stats = yield __await(DefaultGlobber.stat(item, options, traversalChain)
+                // Broken symlink, or symlink cycle detected, or no longer exists
+                );
+                // Broken symlink, or symlink cycle detected, or no longer exists
+                if (!stats) {
+                    continue;
+                }
+                // Directory
+                if (stats.isDirectory()) {
+                    // Matched
+                    if (match & internal_match_kind_1.MatchKind.Directory && options.matchDirectories) {
+                        yield yield __await(item.path);
+                    }
+                    // Descend?
+                    else if (!partialMatch) {
+                        continue;
+                    }
+                    // Push the child items in reverse
+                    const childLevel = item.level + 1;
+                    const childItems = (yield __await(fs.promises.readdir(item.path))).map(x => new internal_search_state_1.SearchState(path.join(item.path, x), childLevel));
+                    stack.push(...childItems.reverse());
+                }
+                // File
+                else if (match & internal_match_kind_1.MatchKind.File) {
+                    yield yield __await(item.path);
+                }
+            }
+        });
+    }
+    /**
+     * Constructs a DefaultGlobber
+     */
+    static create(patterns, options) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const result = new DefaultGlobber(options);
+            if (IS_WINDOWS) {
+                patterns = patterns.replace(/\r\n/g, '\n');
+                patterns = patterns.replace(/\r/g, '\n');
+            }
+            const lines = patterns.split('\n').map(x => x.trim());
+            for (const line of lines) {
+                // Empty or comment
+                if (!line || line.startsWith('#')) {
+                    continue;
+                }
+                // Pattern
+                else {
+                    result.patterns.push(new internal_pattern_1.Pattern(line));
+                }
+            }
+            result.searchPaths.push(...patternHelper.getSearchPaths(result.patterns));
+            return result;
+        });
+    }
+    static stat(item, options, traversalChain) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // Note:
+            // `stat` returns info about the target of a symlink (or symlink chain)
+            // `lstat` returns info about a symlink itself
+            let stats;
+            if (options.followSymbolicLinks) {
+                try {
+                    // Use `stat` (following symlinks)
+                    stats = yield fs.promises.stat(item.path);
+                }
+                catch (err) {
+                    if (err.code === 'ENOENT') {
+                        if (options.omitBrokenSymbolicLinks) {
+                            core.debug(`Broken symlink '${item.path}'`);
+                            return undefined;
+                        }
+                        throw new Error(`No information found for the path '${item.path}'. This may indicate a broken symbolic link.`);
+                    }
+                    throw err;
+                }
+            }
+            else {
+                // Use `lstat` (not following symlinks)
+                stats = yield fs.promises.lstat(item.path);
+            }
+            // Note, isDirectory() returns false for the lstat of a symlink
+            if (stats.isDirectory() && options.followSymbolicLinks) {
+                // Get the realpath
+                const realPath = yield fs.promises.realpath(item.path);
+                // Fixup the traversal chain to match the item level
+                while (traversalChain.length >= item.level) {
+                    traversalChain.pop();
+                }
+                // Test for a cycle
+                if (traversalChain.some((x) => x === realPath)) {
+                    core.debug(`Symlink cycle detected for path '${item.path}' and realpath '${realPath}'`);
+                    return undefined;
+                }
+                // Update the traversal chain
+                traversalChain.push(realPath);
+            }
+            return stats;
+        });
+    }
+}
+exports.DefaultGlobber = DefaultGlobber;
+//# sourceMappingURL=internal-globber.js.map
+
+/***/ }),
+
+/***/ 2448:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __asyncValues = (this && this.__asyncValues) || function (o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.hashFiles = void 0;
+const crypto = __importStar(__nccwpck_require__(6113));
+const core = __importStar(__nccwpck_require__(2186));
+const fs = __importStar(__nccwpck_require__(7147));
+const stream = __importStar(__nccwpck_require__(2781));
+const util = __importStar(__nccwpck_require__(3837));
+const path = __importStar(__nccwpck_require__(1017));
+function hashFiles(globber, currentWorkspace, verbose = false) {
+    var e_1, _a;
+    var _b;
+    return __awaiter(this, void 0, void 0, function* () {
+        const writeDelegate = verbose ? core.info : core.debug;
+        let hasMatch = false;
+        const githubWorkspace = currentWorkspace
+            ? currentWorkspace
+            : (_b = process.env['GITHUB_WORKSPACE']) !== null && _b !== void 0 ? _b : process.cwd();
+        const result = crypto.createHash('sha256');
+        let count = 0;
+        try {
+            for (var _c = __asyncValues(globber.globGenerator()), _d; _d = yield _c.next(), !_d.done;) {
+                const file = _d.value;
+                writeDelegate(file);
+                if (!file.startsWith(`${githubWorkspace}${path.sep}`)) {
+                    writeDelegate(`Ignore '${file}' since it is not under GITHUB_WORKSPACE.`);
+                    continue;
+                }
+                if (fs.statSync(file).isDirectory()) {
+                    writeDelegate(`Skip directory '${file}'.`);
+                    continue;
+                }
+                const hash = crypto.createHash('sha256');
+                const pipeline = util.promisify(stream.pipeline);
+                yield pipeline(fs.createReadStream(file), hash);
+                result.write(hash.digest());
+                count++;
+                if (!hasMatch) {
+                    hasMatch = true;
+                }
+            }
+        }
+        catch (e_1_1) { e_1 = { error: e_1_1 }; }
+        finally {
+            try {
+                if (_d && !_d.done && (_a = _c.return)) yield _a.call(_c);
+            }
+            finally { if (e_1) throw e_1.error; }
+        }
+        result.end();
+        if (hasMatch) {
+            writeDelegate(`Found ${count} files to hash.`);
+            return result.digest('hex');
+        }
+        else {
+            writeDelegate(`No matches found for glob`);
+            return '';
+        }
+    });
+}
+exports.hashFiles = hashFiles;
+//# sourceMappingURL=internal-hash-files.js.map
+
+/***/ }),
+
+/***/ 1063:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.MatchKind = void 0;
+/**
+ * Indicates whether a pattern matches a path
+ */
+var MatchKind;
+(function (MatchKind) {
+    /** Not matched */
+    MatchKind[MatchKind["None"] = 0] = "None";
+    /** Matched if the path is a directory */
+    MatchKind[MatchKind["Directory"] = 1] = "Directory";
+    /** Matched if the path is a regular file */
+    MatchKind[MatchKind["File"] = 2] = "File";
+    /** Matched */
+    MatchKind[MatchKind["All"] = 3] = "All";
+})(MatchKind = exports.MatchKind || (exports.MatchKind = {}));
+//# sourceMappingURL=internal-match-kind.js.map
+
+/***/ }),
+
+/***/ 1849:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.safeTrimTrailingSeparator = exports.normalizeSeparators = exports.hasRoot = exports.hasAbsoluteRoot = exports.ensureAbsoluteRoot = exports.dirname = void 0;
+const path = __importStar(__nccwpck_require__(1017));
+const assert_1 = __importDefault(__nccwpck_require__(9491));
+const IS_WINDOWS = process.platform === 'win32';
+/**
+ * Similar to path.dirname except normalizes the path separators and slightly better handling for Windows UNC paths.
+ *
+ * For example, on Linux/macOS:
+ * - `/               => /`
+ * - `/hello          => /`
+ *
+ * For example, on Windows:
+ * - `C:\             => C:\`
+ * - `C:\hello        => C:\`
+ * - `C:              => C:`
+ * - `C:hello         => C:`
+ * - `\               => \`
+ * - `\hello          => \`
+ * - `\\hello         => \\hello`
+ * - `\\hello\world   => \\hello\world`
+ */
+function dirname(p) {
+    // Normalize slashes and trim unnecessary trailing slash
+    p = safeTrimTrailingSeparator(p);
+    // Windows UNC root, e.g. \\hello or \\hello\world
+    if (IS_WINDOWS && /^\\\\[^\\]+(\\[^\\]+)?$/.test(p)) {
+        return p;
+    }
+    // Get dirname
+    let result = path.dirname(p);
+    // Trim trailing slash for Windows UNC root, e.g. \\hello\world\
+    if (IS_WINDOWS && /^\\\\[^\\]+\\[^\\]+\\$/.test(result)) {
+        result = safeTrimTrailingSeparator(result);
+    }
+    return result;
+}
+exports.dirname = dirname;
+/**
+ * Roots the path if not already rooted. On Windows, relative roots like `\`
+ * or `C:` are expanded based on the current working directory.
+ */
+function ensureAbsoluteRoot(root, itemPath) {
+    assert_1.default(root, `ensureAbsoluteRoot parameter 'root' must not be empty`);
+    assert_1.default(itemPath, `ensureAbsoluteRoot parameter 'itemPath' must not be empty`);
+    // Already rooted
+    if (hasAbsoluteRoot(itemPath)) {
+        return itemPath;
+    }
+    // Windows
+    if (IS_WINDOWS) {
+        // Check for itemPath like C: or C:foo
+        if (itemPath.match(/^[A-Z]:[^\\/]|^[A-Z]:$/i)) {
+            let cwd = process.cwd();
+            assert_1.default(cwd.match(/^[A-Z]:\\/i), `Expected current directory to start with an absolute drive root. Actual '${cwd}'`);
+            // Drive letter matches cwd? Expand to cwd
+            if (itemPath[0].toUpperCase() === cwd[0].toUpperCase()) {
+                // Drive only, e.g. C:
+                if (itemPath.length === 2) {
+                    // Preserve specified drive letter case (upper or lower)
+                    return `${itemPath[0]}:\\${cwd.substr(3)}`;
+                }
+                // Drive + path, e.g. C:foo
+                else {
+                    if (!cwd.endsWith('\\')) {
+                        cwd += '\\';
+                    }
+                    // Preserve specified drive letter case (upper or lower)
+                    return `${itemPath[0]}:\\${cwd.substr(3)}${itemPath.substr(2)}`;
+                }
+            }
+            // Different drive
+            else {
+                return `${itemPath[0]}:\\${itemPath.substr(2)}`;
+            }
+        }
+        // Check for itemPath like \ or \foo
+        else if (normalizeSeparators(itemPath).match(/^\\$|^\\[^\\]/)) {
+            const cwd = process.cwd();
+            assert_1.default(cwd.match(/^[A-Z]:\\/i), `Expected current directory to start with an absolute drive root. Actual '${cwd}'`);
+            return `${cwd[0]}:\\${itemPath.substr(1)}`;
+        }
+    }
+    assert_1.default(hasAbsoluteRoot(root), `ensureAbsoluteRoot parameter 'root' must have an absolute root`);
+    // Otherwise ensure root ends with a separator
+    if (root.endsWith('/') || (IS_WINDOWS && root.endsWith('\\'))) {
+        // Intentionally empty
+    }
+    else {
+        // Append separator
+        root += path.sep;
+    }
+    return root + itemPath;
+}
+exports.ensureAbsoluteRoot = ensureAbsoluteRoot;
+/**
+ * On Linux/macOS, true if path starts with `/`. On Windows, true for paths like:
+ * `\\hello\share` and `C:\hello` (and using alternate separator).
+ */
+function hasAbsoluteRoot(itemPath) {
+    assert_1.default(itemPath, `hasAbsoluteRoot parameter 'itemPath' must not be empty`);
+    // Normalize separators
+    itemPath = normalizeSeparators(itemPath);
+    // Windows
+    if (IS_WINDOWS) {
+        // E.g. \\hello\share or C:\hello
+        return itemPath.startsWith('\\\\') || /^[A-Z]:\\/i.test(itemPath);
+    }
+    // E.g. /hello
+    return itemPath.startsWith('/');
+}
+exports.hasAbsoluteRoot = hasAbsoluteRoot;
+/**
+ * On Linux/macOS, true if path starts with `/`. On Windows, true for paths like:
+ * `\`, `\hello`, `\\hello\share`, `C:`, and `C:\hello` (and using alternate separator).
+ */
+function hasRoot(itemPath) {
+    assert_1.default(itemPath, `isRooted parameter 'itemPath' must not be empty`);
+    // Normalize separators
+    itemPath = normalizeSeparators(itemPath);
+    // Windows
+    if (IS_WINDOWS) {
+        // E.g. \ or \hello or \\hello
+        // E.g. C: or C:\hello
+        return itemPath.startsWith('\\') || /^[A-Z]:/i.test(itemPath);
+    }
+    // E.g. /hello
+    return itemPath.startsWith('/');
+}
+exports.hasRoot = hasRoot;
+/**
+ * Removes redundant slashes and converts `/` to `\` on Windows
+ */
+function normalizeSeparators(p) {
+    p = p || '';
+    // Windows
+    if (IS_WINDOWS) {
+        // Convert slashes on Windows
+        p = p.replace(/\//g, '\\');
+        // Remove redundant slashes
+        const isUnc = /^\\\\+[^\\]/.test(p); // e.g. \\hello
+        return (isUnc ? '\\' : '') + p.replace(/\\\\+/g, '\\'); // preserve leading \\ for UNC
+    }
+    // Remove redundant slashes
+    return p.replace(/\/\/+/g, '/');
+}
+exports.normalizeSeparators = normalizeSeparators;
+/**
+ * Normalizes the path separators and trims the trailing separator (when safe).
+ * For example, `/foo/ => /foo` but `/ => /`
+ */
+function safeTrimTrailingSeparator(p) {
+    // Short-circuit if empty
+    if (!p) {
+        return '';
+    }
+    // Normalize separators
+    p = normalizeSeparators(p);
+    // No trailing slash
+    if (!p.endsWith(path.sep)) {
+        return p;
+    }
+    // Check '/' on Linux/macOS and '\' on Windows
+    if (p === path.sep) {
+        return p;
+    }
+    // On Windows check if drive root. E.g. C:\
+    if (IS_WINDOWS && /^[A-Z]:\\$/i.test(p)) {
+        return p;
+    }
+    // Otherwise trim trailing slash
+    return p.substr(0, p.length - 1);
+}
+exports.safeTrimTrailingSeparator = safeTrimTrailingSeparator;
+//# sourceMappingURL=internal-path-helper.js.map
+
+/***/ }),
+
+/***/ 6836:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Path = void 0;
+const path = __importStar(__nccwpck_require__(1017));
+const pathHelper = __importStar(__nccwpck_require__(1849));
+const assert_1 = __importDefault(__nccwpck_require__(9491));
+const IS_WINDOWS = process.platform === 'win32';
+/**
+ * Helper class for parsing paths into segments
+ */
+class Path {
+    /**
+     * Constructs a Path
+     * @param itemPath Path or array of segments
+     */
+    constructor(itemPath) {
+        this.segments = [];
+        // String
+        if (typeof itemPath === 'string') {
+            assert_1.default(itemPath, `Parameter 'itemPath' must not be empty`);
+            // Normalize slashes and trim unnecessary trailing slash
+            itemPath = pathHelper.safeTrimTrailingSeparator(itemPath);
+            // Not rooted
+            if (!pathHelper.hasRoot(itemPath)) {
+                this.segments = itemPath.split(path.sep);
+            }
+            // Rooted
+            else {
+                // Add all segments, while not at the root
+                let remaining = itemPath;
+                let dir = pathHelper.dirname(remaining);
+                while (dir !== remaining) {
+                    // Add the segment
+                    const basename = path.basename(remaining);
+                    this.segments.unshift(basename);
+                    // Truncate the last segment
+                    remaining = dir;
+                    dir = pathHelper.dirname(remaining);
+                }
+                // Remainder is the root
+                this.segments.unshift(remaining);
+            }
+        }
+        // Array
+        else {
+            // Must not be empty
+            assert_1.default(itemPath.length > 0, `Parameter 'itemPath' must not be an empty array`);
+            // Each segment
+            for (let i = 0; i < itemPath.length; i++) {
+                let segment = itemPath[i];
+                // Must not be empty
+                assert_1.default(segment, `Parameter 'itemPath' must not contain any empty segments`);
+                // Normalize slashes
+                segment = pathHelper.normalizeSeparators(itemPath[i]);
+                // Root segment
+                if (i === 0 && pathHelper.hasRoot(segment)) {
+                    segment = pathHelper.safeTrimTrailingSeparator(segment);
+                    assert_1.default(segment === pathHelper.dirname(segment), `Parameter 'itemPath' root segment contains information for multiple segments`);
+                    this.segments.push(segment);
+                }
+                // All other segments
+                else {
+                    // Must not contain slash
+                    assert_1.default(!segment.includes(path.sep), `Parameter 'itemPath' contains unexpected path separators`);
+                    this.segments.push(segment);
+                }
+            }
+        }
+    }
+    /**
+     * Converts the path to it's string representation
+     */
+    toString() {
+        // First segment
+        let result = this.segments[0];
+        // All others
+        let skipSlash = result.endsWith(path.sep) || (IS_WINDOWS && /^[A-Z]:$/i.test(result));
+        for (let i = 1; i < this.segments.length; i++) {
+            if (skipSlash) {
+                skipSlash = false;
+            }
+            else {
+                result += path.sep;
+            }
+            result += this.segments[i];
+        }
+        return result;
+    }
+}
+exports.Path = Path;
+//# sourceMappingURL=internal-path.js.map
+
+/***/ }),
+
+/***/ 9005:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.partialMatch = exports.match = exports.getSearchPaths = void 0;
+const pathHelper = __importStar(__nccwpck_require__(1849));
+const internal_match_kind_1 = __nccwpck_require__(1063);
+const IS_WINDOWS = process.platform === 'win32';
+/**
+ * Given an array of patterns, returns an array of paths to search.
+ * Duplicates and paths under other included paths are filtered out.
+ */
+function getSearchPaths(patterns) {
+    // Ignore negate patterns
+    patterns = patterns.filter(x => !x.negate);
+    // Create a map of all search paths
+    const searchPathMap = {};
+    for (const pattern of patterns) {
+        const key = IS_WINDOWS
+            ? pattern.searchPath.toUpperCase()
+            : pattern.searchPath;
+        searchPathMap[key] = 'candidate';
+    }
+    const result = [];
+    for (const pattern of patterns) {
+        // Check if already included
+        const key = IS_WINDOWS
+            ? pattern.searchPath.toUpperCase()
+            : pattern.searchPath;
+        if (searchPathMap[key] === 'included') {
+            continue;
+        }
+        // Check for an ancestor search path
+        let foundAncestor = false;
+        let tempKey = key;
+        let parent = pathHelper.dirname(tempKey);
+        while (parent !== tempKey) {
+            if (searchPathMap[parent]) {
+                foundAncestor = true;
+                break;
+            }
+            tempKey = parent;
+            parent = pathHelper.dirname(tempKey);
+        }
+        // Include the search pattern in the result
+        if (!foundAncestor) {
+            result.push(pattern.searchPath);
+            searchPathMap[key] = 'included';
+        }
+    }
+    return result;
+}
+exports.getSearchPaths = getSearchPaths;
+/**
+ * Matches the patterns against the path
+ */
+function match(patterns, itemPath) {
+    let result = internal_match_kind_1.MatchKind.None;
+    for (const pattern of patterns) {
+        if (pattern.negate) {
+            result &= ~pattern.match(itemPath);
+        }
+        else {
+            result |= pattern.match(itemPath);
+        }
+    }
+    return result;
+}
+exports.match = match;
+/**
+ * Checks whether to descend further into the directory
+ */
+function partialMatch(patterns, itemPath) {
+    return patterns.some(x => !x.negate && x.partialMatch(itemPath));
+}
+exports.partialMatch = partialMatch;
+//# sourceMappingURL=internal-pattern-helper.js.map
+
+/***/ }),
+
+/***/ 4536:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Pattern = void 0;
+const os = __importStar(__nccwpck_require__(2037));
+const path = __importStar(__nccwpck_require__(1017));
+const pathHelper = __importStar(__nccwpck_require__(1849));
+const assert_1 = __importDefault(__nccwpck_require__(9491));
+const minimatch_1 = __nccwpck_require__(3973);
+const internal_match_kind_1 = __nccwpck_require__(1063);
+const internal_path_1 = __nccwpck_require__(6836);
+const IS_WINDOWS = process.platform === 'win32';
+class Pattern {
+    constructor(patternOrNegate, isImplicitPattern = false, segments, homedir) {
+        /**
+         * Indicates whether matches should be excluded from the result set
+         */
+        this.negate = false;
+        // Pattern overload
+        let pattern;
+        if (typeof patternOrNegate === 'string') {
+            pattern = patternOrNegate.trim();
+        }
+        // Segments overload
+        else {
+            // Convert to pattern
+            segments = segments || [];
+            assert_1.default(segments.length, `Parameter 'segments' must not empty`);
+            const root = Pattern.getLiteral(segments[0]);
+            assert_1.default(root && pathHelper.hasAbsoluteRoot(root), `Parameter 'segments' first element must be a root path`);
+            pattern = new internal_path_1.Path(segments).toString().trim();
+            if (patternOrNegate) {
+                pattern = `!${pattern}`;
+            }
+        }
+        // Negate
+        while (pattern.startsWith('!')) {
+            this.negate = !this.negate;
+            pattern = pattern.substr(1).trim();
+        }
+        // Normalize slashes and ensures absolute root
+        pattern = Pattern.fixupPattern(pattern, homedir);
+        // Segments
+        this.segments = new internal_path_1.Path(pattern).segments;
+        // Trailing slash indicates the pattern should only match directories, not regular files
+        this.trailingSeparator = pathHelper
+            .normalizeSeparators(pattern)
+            .endsWith(path.sep);
+        pattern = pathHelper.safeTrimTrailingSeparator(pattern);
+        // Search path (literal path prior to the first glob segment)
+        let foundGlob = false;
+        const searchSegments = this.segments
+            .map(x => Pattern.getLiteral(x))
+            .filter(x => !foundGlob && !(foundGlob = x === ''));
+        this.searchPath = new internal_path_1.Path(searchSegments).toString();
+        // Root RegExp (required when determining partial match)
+        this.rootRegExp = new RegExp(Pattern.regExpEscape(searchSegments[0]), IS_WINDOWS ? 'i' : '');
+        this.isImplicitPattern = isImplicitPattern;
+        // Create minimatch
+        const minimatchOptions = {
+            dot: true,
+            nobrace: true,
+            nocase: IS_WINDOWS,
+            nocomment: true,
+            noext: true,
+            nonegate: true
+        };
+        pattern = IS_WINDOWS ? pattern.replace(/\\/g, '/') : pattern;
+        this.minimatch = new minimatch_1.Minimatch(pattern, minimatchOptions);
+    }
+    /**
+     * Matches the pattern against the specified path
+     */
+    match(itemPath) {
+        // Last segment is globstar?
+        if (this.segments[this.segments.length - 1] === '**') {
+            // Normalize slashes
+            itemPath = pathHelper.normalizeSeparators(itemPath);
+            // Append a trailing slash. Otherwise Minimatch will not match the directory immediately
+            // preceding the globstar. For example, given the pattern `/foo/**`, Minimatch returns
+            // false for `/foo` but returns true for `/foo/`. Append a trailing slash to handle that quirk.
+            if (!itemPath.endsWith(path.sep) && this.isImplicitPattern === false) {
+                // Note, this is safe because the constructor ensures the pattern has an absolute root.
+                // For example, formats like C: and C:foo on Windows are resolved to an absolute root.
+                itemPath = `${itemPath}${path.sep}`;
+            }
+        }
+        else {
+            // Normalize slashes and trim unnecessary trailing slash
+            itemPath = pathHelper.safeTrimTrailingSeparator(itemPath);
+        }
+        // Match
+        if (this.minimatch.match(itemPath)) {
+            return this.trailingSeparator ? internal_match_kind_1.MatchKind.Directory : internal_match_kind_1.MatchKind.All;
+        }
+        return internal_match_kind_1.MatchKind.None;
+    }
+    /**
+     * Indicates whether the pattern may match descendants of the specified path
+     */
+    partialMatch(itemPath) {
+        // Normalize slashes and trim unnecessary trailing slash
+        itemPath = pathHelper.safeTrimTrailingSeparator(itemPath);
+        // matchOne does not handle root path correctly
+        if (pathHelper.dirname(itemPath) === itemPath) {
+            return this.rootRegExp.test(itemPath);
+        }
+        return this.minimatch.matchOne(itemPath.split(IS_WINDOWS ? /\\+/ : /\/+/), this.minimatch.set[0], true);
+    }
+    /**
+     * Escapes glob patterns within a path
+     */
+    static globEscape(s) {
+        return (IS_WINDOWS ? s : s.replace(/\\/g, '\\\\')) // escape '\' on Linux/macOS
+            .replace(/(\[)(?=[^/]+\])/g, '[[]') // escape '[' when ']' follows within the path segment
+            .replace(/\?/g, '[?]') // escape '?'
+            .replace(/\*/g, '[*]'); // escape '*'
+    }
+    /**
+     * Normalizes slashes and ensures absolute root
+     */
+    static fixupPattern(pattern, homedir) {
+        // Empty
+        assert_1.default(pattern, 'pattern cannot be empty');
+        // Must not contain `.` segment, unless first segment
+        // Must not contain `..` segment
+        const literalSegments = new internal_path_1.Path(pattern).segments.map(x => Pattern.getLiteral(x));
+        assert_1.default(literalSegments.every((x, i) => (x !== '.' || i === 0) && x !== '..'), `Invalid pattern '${pattern}'. Relative pathing '.' and '..' is not allowed.`);
+        // Must not contain globs in root, e.g. Windows UNC path \\foo\b*r
+        assert_1.default(!pathHelper.hasRoot(pattern) || literalSegments[0], `Invalid pattern '${pattern}'. Root segment must not contain globs.`);
+        // Normalize slashes
+        pattern = pathHelper.normalizeSeparators(pattern);
+        // Replace leading `.` segment
+        if (pattern === '.' || pattern.startsWith(`.${path.sep}`)) {
+            pattern = Pattern.globEscape(process.cwd()) + pattern.substr(1);
+        }
+        // Replace leading `~` segment
+        else if (pattern === '~' || pattern.startsWith(`~${path.sep}`)) {
+            homedir = homedir || os.homedir();
+            assert_1.default(homedir, 'Unable to determine HOME directory');
+            assert_1.default(pathHelper.hasAbsoluteRoot(homedir), `Expected HOME directory to be a rooted path. Actual '${homedir}'`);
+            pattern = Pattern.globEscape(homedir) + pattern.substr(1);
+        }
+        // Replace relative drive root, e.g. pattern is C: or C:foo
+        else if (IS_WINDOWS &&
+            (pattern.match(/^[A-Z]:$/i) || pattern.match(/^[A-Z]:[^\\]/i))) {
+            let root = pathHelper.ensureAbsoluteRoot('C:\\dummy-root', pattern.substr(0, 2));
+            if (pattern.length > 2 && !root.endsWith('\\')) {
+                root += '\\';
+            }
+            pattern = Pattern.globEscape(root) + pattern.substr(2);
+        }
+        // Replace relative root, e.g. pattern is \ or \foo
+        else if (IS_WINDOWS && (pattern === '\\' || pattern.match(/^\\[^\\]/))) {
+            let root = pathHelper.ensureAbsoluteRoot('C:\\dummy-root', '\\');
+            if (!root.endsWith('\\')) {
+                root += '\\';
+            }
+            pattern = Pattern.globEscape(root) + pattern.substr(1);
+        }
+        // Otherwise ensure absolute root
+        else {
+            pattern = pathHelper.ensureAbsoluteRoot(Pattern.globEscape(process.cwd()), pattern);
+        }
+        return pathHelper.normalizeSeparators(pattern);
+    }
+    /**
+     * Attempts to unescape a pattern segment to create a literal path segment.
+     * Otherwise returns empty string.
+     */
+    static getLiteral(segment) {
+        let literal = '';
+        for (let i = 0; i < segment.length; i++) {
+            const c = segment[i];
+            // Escape
+            if (c === '\\' && !IS_WINDOWS && i + 1 < segment.length) {
+                literal += segment[++i];
+                continue;
+            }
+            // Wildcard
+            else if (c === '*' || c === '?') {
+                return '';
+            }
+            // Character set
+            else if (c === '[' && i + 1 < segment.length) {
+                let set = '';
+                let closed = -1;
+                for (let i2 = i + 1; i2 < segment.length; i2++) {
+                    const c2 = segment[i2];
+                    // Escape
+                    if (c2 === '\\' && !IS_WINDOWS && i2 + 1 < segment.length) {
+                        set += segment[++i2];
+                        continue;
+                    }
+                    // Closed
+                    else if (c2 === ']') {
+                        closed = i2;
+                        break;
+                    }
+                    // Otherwise
+                    else {
+                        set += c2;
+                    }
+                }
+                // Closed?
+                if (closed >= 0) {
+                    // Cannot convert
+                    if (set.length > 1) {
+                        return '';
+                    }
+                    // Convert to literal
+                    if (set) {
+                        literal += set;
+                        i = closed;
+                        continue;
+                    }
+                }
+                // Otherwise fall thru
+            }
+            // Append
+            literal += c;
+        }
+        return literal;
+    }
+    /**
+     * Escapes regexp special characters
+     * https://javascript.info/regexp-escaping
+     */
+    static regExpEscape(s) {
+        return s.replace(/[[\\^$.|?*+()]/g, '\\$&');
+    }
+}
+exports.Pattern = Pattern;
+//# sourceMappingURL=internal-pattern.js.map
+
+/***/ }),
+
+/***/ 9117:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.SearchState = void 0;
+class SearchState {
+    constructor(path, level) {
+        this.path = path;
+        this.level = level;
+    }
+}
+exports.SearchState = SearchState;
+//# sourceMappingURL=internal-search-state.js.map
+
+/***/ }),
+
 /***/ 5526:
 /***/ (function(__unused_webpack_module, exports) {
 
@@ -1827,6 +3019,2935 @@ function isLoopbackAddress(host) {
         hostLower.startsWith('[0:0:0:0:0:0:0:1]'));
 }
 //# sourceMappingURL=proxy.js.map
+
+/***/ }),
+
+/***/ 9417:
+/***/ ((module) => {
+
+"use strict";
+
+module.exports = balanced;
+function balanced(a, b, str) {
+  if (a instanceof RegExp) a = maybeMatch(a, str);
+  if (b instanceof RegExp) b = maybeMatch(b, str);
+
+  var r = range(a, b, str);
+
+  return r && {
+    start: r[0],
+    end: r[1],
+    pre: str.slice(0, r[0]),
+    body: str.slice(r[0] + a.length, r[1]),
+    post: str.slice(r[1] + b.length)
+  };
+}
+
+function maybeMatch(reg, str) {
+  var m = str.match(reg);
+  return m ? m[0] : null;
+}
+
+balanced.range = range;
+function range(a, b, str) {
+  var begs, beg, left, right, result;
+  var ai = str.indexOf(a);
+  var bi = str.indexOf(b, ai + 1);
+  var i = ai;
+
+  if (ai >= 0 && bi > 0) {
+    if(a===b) {
+      return [ai, bi];
+    }
+    begs = [];
+    left = str.length;
+
+    while (i >= 0 && !result) {
+      if (i == ai) {
+        begs.push(i);
+        ai = str.indexOf(a, i + 1);
+      } else if (begs.length == 1) {
+        result = [ begs.pop(), bi ];
+      } else {
+        beg = begs.pop();
+        if (beg < left) {
+          left = beg;
+          right = bi;
+        }
+
+        bi = str.indexOf(b, i + 1);
+      }
+
+      i = ai < bi && ai >= 0 ? ai : bi;
+    }
+
+    if (begs.length) {
+      result = [ left, right ];
+    }
+  }
+
+  return result;
+}
+
+
+/***/ }),
+
+/***/ 3717:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+var concatMap = __nccwpck_require__(6891);
+var balanced = __nccwpck_require__(9417);
+
+module.exports = expandTop;
+
+var escSlash = '\0SLASH'+Math.random()+'\0';
+var escOpen = '\0OPEN'+Math.random()+'\0';
+var escClose = '\0CLOSE'+Math.random()+'\0';
+var escComma = '\0COMMA'+Math.random()+'\0';
+var escPeriod = '\0PERIOD'+Math.random()+'\0';
+
+function numeric(str) {
+  return parseInt(str, 10) == str
+    ? parseInt(str, 10)
+    : str.charCodeAt(0);
+}
+
+function escapeBraces(str) {
+  return str.split('\\\\').join(escSlash)
+            .split('\\{').join(escOpen)
+            .split('\\}').join(escClose)
+            .split('\\,').join(escComma)
+            .split('\\.').join(escPeriod);
+}
+
+function unescapeBraces(str) {
+  return str.split(escSlash).join('\\')
+            .split(escOpen).join('{')
+            .split(escClose).join('}')
+            .split(escComma).join(',')
+            .split(escPeriod).join('.');
+}
+
+
+// Basically just str.split(","), but handling cases
+// where we have nested braced sections, which should be
+// treated as individual members, like {a,{b,c},d}
+function parseCommaParts(str) {
+  if (!str)
+    return [''];
+
+  var parts = [];
+  var m = balanced('{', '}', str);
+
+  if (!m)
+    return str.split(',');
+
+  var pre = m.pre;
+  var body = m.body;
+  var post = m.post;
+  var p = pre.split(',');
+
+  p[p.length-1] += '{' + body + '}';
+  var postParts = parseCommaParts(post);
+  if (post.length) {
+    p[p.length-1] += postParts.shift();
+    p.push.apply(p, postParts);
+  }
+
+  parts.push.apply(parts, p);
+
+  return parts;
+}
+
+function expandTop(str) {
+  if (!str)
+    return [];
+
+  // I don't know why Bash 4.3 does this, but it does.
+  // Anything starting with {} will have the first two bytes preserved
+  // but *only* at the top level, so {},a}b will not expand to anything,
+  // but a{},b}c will be expanded to [a}c,abc].
+  // One could argue that this is a bug in Bash, but since the goal of
+  // this module is to match Bash's rules, we escape a leading {}
+  if (str.substr(0, 2) === '{}') {
+    str = '\\{\\}' + str.substr(2);
+  }
+
+  return expand(escapeBraces(str), true).map(unescapeBraces);
+}
+
+function identity(e) {
+  return e;
+}
+
+function embrace(str) {
+  return '{' + str + '}';
+}
+function isPadded(el) {
+  return /^-?0\d/.test(el);
+}
+
+function lte(i, y) {
+  return i <= y;
+}
+function gte(i, y) {
+  return i >= y;
+}
+
+function expand(str, isTop) {
+  var expansions = [];
+
+  var m = balanced('{', '}', str);
+  if (!m || /\$$/.test(m.pre)) return [str];
+
+  var isNumericSequence = /^-?\d+\.\.-?\d+(?:\.\.-?\d+)?$/.test(m.body);
+  var isAlphaSequence = /^[a-zA-Z]\.\.[a-zA-Z](?:\.\.-?\d+)?$/.test(m.body);
+  var isSequence = isNumericSequence || isAlphaSequence;
+  var isOptions = m.body.indexOf(',') >= 0;
+  if (!isSequence && !isOptions) {
+    // {a},b}
+    if (m.post.match(/,.*\}/)) {
+      str = m.pre + '{' + m.body + escClose + m.post;
+      return expand(str);
+    }
+    return [str];
+  }
+
+  var n;
+  if (isSequence) {
+    n = m.body.split(/\.\./);
+  } else {
+    n = parseCommaParts(m.body);
+    if (n.length === 1) {
+      // x{{a,b}}y ==> x{a}y x{b}y
+      n = expand(n[0], false).map(embrace);
+      if (n.length === 1) {
+        var post = m.post.length
+          ? expand(m.post, false)
+          : [''];
+        return post.map(function(p) {
+          return m.pre + n[0] + p;
+        });
+      }
+    }
+  }
+
+  // at this point, n is the parts, and we know it's not a comma set
+  // with a single entry.
+
+  // no need to expand pre, since it is guaranteed to be free of brace-sets
+  var pre = m.pre;
+  var post = m.post.length
+    ? expand(m.post, false)
+    : [''];
+
+  var N;
+
+  if (isSequence) {
+    var x = numeric(n[0]);
+    var y = numeric(n[1]);
+    var width = Math.max(n[0].length, n[1].length)
+    var incr = n.length == 3
+      ? Math.abs(numeric(n[2]))
+      : 1;
+    var test = lte;
+    var reverse = y < x;
+    if (reverse) {
+      incr *= -1;
+      test = gte;
+    }
+    var pad = n.some(isPadded);
+
+    N = [];
+
+    for (var i = x; test(i, y); i += incr) {
+      var c;
+      if (isAlphaSequence) {
+        c = String.fromCharCode(i);
+        if (c === '\\')
+          c = '';
+      } else {
+        c = String(i);
+        if (pad) {
+          var need = width - c.length;
+          if (need > 0) {
+            var z = new Array(need + 1).join('0');
+            if (i < 0)
+              c = '-' + z + c.slice(1);
+            else
+              c = z + c;
+          }
+        }
+      }
+      N.push(c);
+    }
+  } else {
+    N = concatMap(n, function(el) { return expand(el, false) });
+  }
+
+  for (var j = 0; j < N.length; j++) {
+    for (var k = 0; k < post.length; k++) {
+      var expansion = pre + N[j] + post[k];
+      if (!isTop || isSequence || expansion)
+        expansions.push(expansion);
+    }
+  }
+
+  return expansions;
+}
+
+
+
+/***/ }),
+
+/***/ 487:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const match_1 = __importDefault(__nccwpck_require__(6721));
+class Ascii {
+    name() {
+        return 'ASCII';
+    }
+    match(det) {
+        const input = det.rawInput;
+        for (let i = 0; i < det.rawLen; i++) {
+            const b = input[i];
+            if (b < 32 || b > 126) {
+                return (0, match_1.default)(det, this, 0);
+            }
+        }
+        return (0, match_1.default)(det, this, 100);
+    }
+}
+exports["default"] = Ascii;
+//# sourceMappingURL=ascii.js.map
+
+/***/ }),
+
+/***/ 4715:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ISO_2022_CN = exports.ISO_2022_KR = exports.ISO_2022_JP = void 0;
+const match_1 = __importDefault(__nccwpck_require__(6721));
+class ISO_2022 {
+    constructor() {
+        this.escapeSequences = [];
+    }
+    name() {
+        return 'ISO_2022';
+    }
+    match(det) {
+        let i, j;
+        let escN;
+        let hits = 0;
+        let misses = 0;
+        let shifts = 0;
+        let confidence;
+        const text = det.inputBytes;
+        const textLen = det.inputLen;
+        scanInput: for (i = 0; i < textLen; i++) {
+            if (text[i] == 0x1b) {
+                checkEscapes: for (escN = 0; escN < this.escapeSequences.length; escN++) {
+                    const seq = this.escapeSequences[escN];
+                    if (textLen - i < seq.length)
+                        continue checkEscapes;
+                    for (j = 1; j < seq.length; j++)
+                        if (seq[j] != text[i + j])
+                            continue checkEscapes;
+                    hits++;
+                    i += seq.length - 1;
+                    continue scanInput;
+                }
+                misses++;
+            }
+            if (text[i] == 0x0e || text[i] == 0x0f)
+                shifts++;
+        }
+        if (hits == 0)
+            return null;
+        confidence = (100 * hits - 100 * misses) / (hits + misses);
+        if (hits + shifts < 5)
+            confidence -= (5 - (hits + shifts)) * 10;
+        return confidence <= 0 ? null : (0, match_1.default)(det, this, confidence);
+    }
+}
+class ISO_2022_JP extends ISO_2022 {
+    constructor() {
+        super(...arguments);
+        this.escapeSequences = [
+            [0x1b, 0x24, 0x28, 0x43],
+            [0x1b, 0x24, 0x28, 0x44],
+            [0x1b, 0x24, 0x40],
+            [0x1b, 0x24, 0x41],
+            [0x1b, 0x24, 0x42],
+            [0x1b, 0x26, 0x40],
+            [0x1b, 0x28, 0x42],
+            [0x1b, 0x28, 0x48],
+            [0x1b, 0x28, 0x49],
+            [0x1b, 0x28, 0x4a],
+            [0x1b, 0x2e, 0x41],
+            [0x1b, 0x2e, 0x46],
+        ];
+    }
+    name() {
+        return 'ISO-2022-JP';
+    }
+    language() {
+        return 'ja';
+    }
+}
+exports.ISO_2022_JP = ISO_2022_JP;
+class ISO_2022_KR extends ISO_2022 {
+    constructor() {
+        super(...arguments);
+        this.escapeSequences = [[0x1b, 0x24, 0x29, 0x43]];
+    }
+    name() {
+        return 'ISO-2022-KR';
+    }
+    language() {
+        return 'kr';
+    }
+}
+exports.ISO_2022_KR = ISO_2022_KR;
+class ISO_2022_CN extends ISO_2022 {
+    constructor() {
+        super(...arguments);
+        this.escapeSequences = [
+            [0x1b, 0x24, 0x29, 0x41],
+            [0x1b, 0x24, 0x29, 0x47],
+            [0x1b, 0x24, 0x2a, 0x48],
+            [0x1b, 0x24, 0x29, 0x45],
+            [0x1b, 0x24, 0x2b, 0x49],
+            [0x1b, 0x24, 0x2b, 0x4a],
+            [0x1b, 0x24, 0x2b, 0x4b],
+            [0x1b, 0x24, 0x2b, 0x4c],
+            [0x1b, 0x24, 0x2b, 0x4d],
+            [0x1b, 0x4e],
+            [0x1b, 0x4f],
+        ];
+    }
+    name() {
+        return 'ISO-2022-CN';
+    }
+    language() {
+        return 'zh';
+    }
+}
+exports.ISO_2022_CN = ISO_2022_CN;
+//# sourceMappingURL=iso2022.js.map
+
+/***/ }),
+
+/***/ 1623:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.gb_18030 = exports.euc_kr = exports.euc_jp = exports.big5 = exports.sjis = void 0;
+const match_1 = __importDefault(__nccwpck_require__(6721));
+function binarySearch(arr, searchValue) {
+    const find = (arr, searchValue, left, right) => {
+        if (right < left)
+            return -1;
+        const mid = Math.floor((left + right) >>> 1);
+        if (searchValue > arr[mid])
+            return find(arr, searchValue, mid + 1, right);
+        if (searchValue < arr[mid])
+            return find(arr, searchValue, left, mid - 1);
+        return mid;
+    };
+    return find(arr, searchValue, 0, arr.length - 1);
+}
+class IteratedChar {
+    constructor() {
+        this.charValue = 0;
+        this.index = 0;
+        this.nextIndex = 0;
+        this.error = false;
+        this.done = false;
+    }
+    reset() {
+        this.charValue = 0;
+        this.index = -1;
+        this.nextIndex = 0;
+        this.error = false;
+        this.done = false;
+    }
+    nextByte(det) {
+        if (this.nextIndex >= det.rawLen) {
+            this.done = true;
+            return -1;
+        }
+        const byteValue = det.rawInput[this.nextIndex++] & 0x00ff;
+        return byteValue;
+    }
+}
+class mbcs {
+    constructor() {
+        this.commonChars = [];
+    }
+    name() {
+        return 'mbcs';
+    }
+    match(det) {
+        let doubleByteCharCount = 0, commonCharCount = 0, badCharCount = 0, totalCharCount = 0, confidence = 0;
+        const iter = new IteratedChar();
+        detectBlock: {
+            for (iter.reset(); this.nextChar(iter, det);) {
+                totalCharCount++;
+                if (iter.error) {
+                    badCharCount++;
+                }
+                else {
+                    const cv = iter.charValue & 0xffffffff;
+                    if (cv > 0xff) {
+                        doubleByteCharCount++;
+                        if (this.commonChars != null) {
+                            if (binarySearch(this.commonChars, cv) >= 0) {
+                                commonCharCount++;
+                            }
+                        }
+                    }
+                }
+                if (badCharCount >= 2 && badCharCount * 5 >= doubleByteCharCount) {
+                    break detectBlock;
+                }
+            }
+            if (doubleByteCharCount <= 10 && badCharCount == 0) {
+                if (doubleByteCharCount == 0 && totalCharCount < 10) {
+                    confidence = 0;
+                }
+                else {
+                    confidence = 10;
+                }
+                break detectBlock;
+            }
+            if (doubleByteCharCount < 20 * badCharCount) {
+                confidence = 0;
+                break detectBlock;
+            }
+            if (this.commonChars == null) {
+                confidence = 30 + doubleByteCharCount - 20 * badCharCount;
+                if (confidence > 100) {
+                    confidence = 100;
+                }
+            }
+            else {
+                const maxVal = Math.log(doubleByteCharCount / 4);
+                const scaleFactor = 90.0 / maxVal;
+                confidence = Math.floor(Math.log(commonCharCount + 1) * scaleFactor + 10);
+                confidence = Math.min(confidence, 100);
+            }
+        }
+        return confidence == 0 ? null : (0, match_1.default)(det, this, confidence);
+    }
+    nextChar(_iter, _det) {
+        return true;
+    }
+}
+class sjis extends mbcs {
+    constructor() {
+        super(...arguments);
+        this.commonChars = [
+            0x8140, 0x8141, 0x8142, 0x8145, 0x815b, 0x8169, 0x816a, 0x8175, 0x8176,
+            0x82a0, 0x82a2, 0x82a4, 0x82a9, 0x82aa, 0x82ab, 0x82ad, 0x82af, 0x82b1,
+            0x82b3, 0x82b5, 0x82b7, 0x82bd, 0x82be, 0x82c1, 0x82c4, 0x82c5, 0x82c6,
+            0x82c8, 0x82c9, 0x82cc, 0x82cd, 0x82dc, 0x82e0, 0x82e7, 0x82e8, 0x82e9,
+            0x82ea, 0x82f0, 0x82f1, 0x8341, 0x8343, 0x834e, 0x834f, 0x8358, 0x835e,
+            0x8362, 0x8367, 0x8375, 0x8376, 0x8389, 0x838a, 0x838b, 0x838d, 0x8393,
+            0x8e96, 0x93fa, 0x95aa,
+        ];
+    }
+    name() {
+        return 'Shift_JIS';
+    }
+    language() {
+        return 'ja';
+    }
+    nextChar(iter, det) {
+        iter.index = iter.nextIndex;
+        iter.error = false;
+        const firstByte = (iter.charValue = iter.nextByte(det));
+        if (firstByte < 0)
+            return false;
+        if (firstByte <= 0x7f || (firstByte > 0xa0 && firstByte <= 0xdf))
+            return true;
+        const secondByte = iter.nextByte(det);
+        if (secondByte < 0)
+            return false;
+        iter.charValue = (firstByte << 8) | secondByte;
+        if (!((secondByte >= 0x40 && secondByte <= 0x7f) ||
+            (secondByte >= 0x80 && secondByte <= 0xff))) {
+            iter.error = true;
+        }
+        return true;
+    }
+}
+exports.sjis = sjis;
+class big5 extends mbcs {
+    constructor() {
+        super(...arguments);
+        this.commonChars = [
+            0xa140, 0xa141, 0xa142, 0xa143, 0xa147, 0xa149, 0xa175, 0xa176, 0xa440,
+            0xa446, 0xa447, 0xa448, 0xa451, 0xa454, 0xa457, 0xa464, 0xa46a, 0xa46c,
+            0xa477, 0xa4a3, 0xa4a4, 0xa4a7, 0xa4c1, 0xa4ce, 0xa4d1, 0xa4df, 0xa4e8,
+            0xa4fd, 0xa540, 0xa548, 0xa558, 0xa569, 0xa5cd, 0xa5e7, 0xa657, 0xa661,
+            0xa662, 0xa668, 0xa670, 0xa6a8, 0xa6b3, 0xa6b9, 0xa6d3, 0xa6db, 0xa6e6,
+            0xa6f2, 0xa740, 0xa751, 0xa759, 0xa7da, 0xa8a3, 0xa8a5, 0xa8ad, 0xa8d1,
+            0xa8d3, 0xa8e4, 0xa8fc, 0xa9c0, 0xa9d2, 0xa9f3, 0xaa6b, 0xaaba, 0xaabe,
+            0xaacc, 0xaafc, 0xac47, 0xac4f, 0xacb0, 0xacd2, 0xad59, 0xaec9, 0xafe0,
+            0xb0ea, 0xb16f, 0xb2b3, 0xb2c4, 0xb36f, 0xb44c, 0xb44e, 0xb54c, 0xb5a5,
+            0xb5bd, 0xb5d0, 0xb5d8, 0xb671, 0xb7ed, 0xb867, 0xb944, 0xbad8, 0xbb44,
+            0xbba1, 0xbdd1, 0xc2c4, 0xc3b9, 0xc440, 0xc45f,
+        ];
+    }
+    name() {
+        return 'Big5';
+    }
+    language() {
+        return 'zh';
+    }
+    nextChar(iter, det) {
+        iter.index = iter.nextIndex;
+        iter.error = false;
+        const firstByte = (iter.charValue = iter.nextByte(det));
+        if (firstByte < 0)
+            return false;
+        if (firstByte <= 0x7f || firstByte == 0xff)
+            return true;
+        const secondByte = iter.nextByte(det);
+        if (secondByte < 0)
+            return false;
+        iter.charValue = (iter.charValue << 8) | secondByte;
+        if (secondByte < 0x40 || secondByte == 0x7f || secondByte == 0xff)
+            iter.error = true;
+        return true;
+    }
+}
+exports.big5 = big5;
+function eucNextChar(iter, det) {
+    iter.index = iter.nextIndex;
+    iter.error = false;
+    let firstByte = 0;
+    let secondByte = 0;
+    let thirdByte = 0;
+    buildChar: {
+        firstByte = iter.charValue = iter.nextByte(det);
+        if (firstByte < 0) {
+            iter.done = true;
+            break buildChar;
+        }
+        if (firstByte <= 0x8d) {
+            break buildChar;
+        }
+        secondByte = iter.nextByte(det);
+        iter.charValue = (iter.charValue << 8) | secondByte;
+        if (firstByte >= 0xa1 && firstByte <= 0xfe) {
+            if (secondByte < 0xa1) {
+                iter.error = true;
+            }
+            break buildChar;
+        }
+        if (firstByte == 0x8e) {
+            if (secondByte < 0xa1) {
+                iter.error = true;
+            }
+            break buildChar;
+        }
+        if (firstByte == 0x8f) {
+            thirdByte = iter.nextByte(det);
+            iter.charValue = (iter.charValue << 8) | thirdByte;
+            if (thirdByte < 0xa1) {
+                iter.error = true;
+            }
+        }
+    }
+    return iter.done == false;
+}
+class euc_jp extends mbcs {
+    constructor() {
+        super(...arguments);
+        this.commonChars = [
+            0xa1a1, 0xa1a2, 0xa1a3, 0xa1a6, 0xa1bc, 0xa1ca, 0xa1cb, 0xa1d6, 0xa1d7,
+            0xa4a2, 0xa4a4, 0xa4a6, 0xa4a8, 0xa4aa, 0xa4ab, 0xa4ac, 0xa4ad, 0xa4af,
+            0xa4b1, 0xa4b3, 0xa4b5, 0xa4b7, 0xa4b9, 0xa4bb, 0xa4bd, 0xa4bf, 0xa4c0,
+            0xa4c1, 0xa4c3, 0xa4c4, 0xa4c6, 0xa4c7, 0xa4c8, 0xa4c9, 0xa4ca, 0xa4cb,
+            0xa4ce, 0xa4cf, 0xa4d0, 0xa4de, 0xa4df, 0xa4e1, 0xa4e2, 0xa4e4, 0xa4e8,
+            0xa4e9, 0xa4ea, 0xa4eb, 0xa4ec, 0xa4ef, 0xa4f2, 0xa4f3, 0xa5a2, 0xa5a3,
+            0xa5a4, 0xa5a6, 0xa5a7, 0xa5aa, 0xa5ad, 0xa5af, 0xa5b0, 0xa5b3, 0xa5b5,
+            0xa5b7, 0xa5b8, 0xa5b9, 0xa5bf, 0xa5c3, 0xa5c6, 0xa5c7, 0xa5c8, 0xa5c9,
+            0xa5cb, 0xa5d0, 0xa5d5, 0xa5d6, 0xa5d7, 0xa5de, 0xa5e0, 0xa5e1, 0xa5e5,
+            0xa5e9, 0xa5ea, 0xa5eb, 0xa5ec, 0xa5ed, 0xa5f3, 0xb8a9, 0xb9d4, 0xbaee,
+            0xbbc8, 0xbef0, 0xbfb7, 0xc4ea, 0xc6fc, 0xc7bd, 0xcab8, 0xcaf3, 0xcbdc,
+            0xcdd1,
+        ];
+        this.nextChar = eucNextChar;
+    }
+    name() {
+        return 'EUC-JP';
+    }
+    language() {
+        return 'ja';
+    }
+}
+exports.euc_jp = euc_jp;
+class euc_kr extends mbcs {
+    constructor() {
+        super(...arguments);
+        this.commonChars = [
+            0xb0a1, 0xb0b3, 0xb0c5, 0xb0cd, 0xb0d4, 0xb0e6, 0xb0ed, 0xb0f8, 0xb0fa,
+            0xb0fc, 0xb1b8, 0xb1b9, 0xb1c7, 0xb1d7, 0xb1e2, 0xb3aa, 0xb3bb, 0xb4c2,
+            0xb4cf, 0xb4d9, 0xb4eb, 0xb5a5, 0xb5b5, 0xb5bf, 0xb5c7, 0xb5e9, 0xb6f3,
+            0xb7af, 0xb7c2, 0xb7ce, 0xb8a6, 0xb8ae, 0xb8b6, 0xb8b8, 0xb8bb, 0xb8e9,
+            0xb9ab, 0xb9ae, 0xb9cc, 0xb9ce, 0xb9fd, 0xbab8, 0xbace, 0xbad0, 0xbaf1,
+            0xbbe7, 0xbbf3, 0xbbfd, 0xbcad, 0xbcba, 0xbcd2, 0xbcf6, 0xbdba, 0xbdc0,
+            0xbdc3, 0xbdc5, 0xbec6, 0xbec8, 0xbedf, 0xbeee, 0xbef8, 0xbefa, 0xbfa1,
+            0xbfa9, 0xbfc0, 0xbfe4, 0xbfeb, 0xbfec, 0xbff8, 0xc0a7, 0xc0af, 0xc0b8,
+            0xc0ba, 0xc0bb, 0xc0bd, 0xc0c7, 0xc0cc, 0xc0ce, 0xc0cf, 0xc0d6, 0xc0da,
+            0xc0e5, 0xc0fb, 0xc0fc, 0xc1a4, 0xc1a6, 0xc1b6, 0xc1d6, 0xc1df, 0xc1f6,
+            0xc1f8, 0xc4a1, 0xc5cd, 0xc6ae, 0xc7cf, 0xc7d1, 0xc7d2, 0xc7d8, 0xc7e5,
+            0xc8ad,
+        ];
+        this.nextChar = eucNextChar;
+    }
+    name() {
+        return 'EUC-KR';
+    }
+    language() {
+        return 'ko';
+    }
+}
+exports.euc_kr = euc_kr;
+class gb_18030 extends mbcs {
+    constructor() {
+        super(...arguments);
+        this.commonChars = [
+            0xa1a1, 0xa1a2, 0xa1a3, 0xa1a4, 0xa1b0, 0xa1b1, 0xa1f1, 0xa1f3, 0xa3a1,
+            0xa3ac, 0xa3ba, 0xb1a8, 0xb1b8, 0xb1be, 0xb2bb, 0xb3c9, 0xb3f6, 0xb4f3,
+            0xb5bd, 0xb5c4, 0xb5e3, 0xb6af, 0xb6d4, 0xb6e0, 0xb7a2, 0xb7a8, 0xb7bd,
+            0xb7d6, 0xb7dd, 0xb8b4, 0xb8df, 0xb8f6, 0xb9ab, 0xb9c9, 0xb9d8, 0xb9fa,
+            0xb9fd, 0xbacd, 0xbba7, 0xbbd6, 0xbbe1, 0xbbfa, 0xbcbc, 0xbcdb, 0xbcfe,
+            0xbdcc, 0xbecd, 0xbedd, 0xbfb4, 0xbfc6, 0xbfc9, 0xc0b4, 0xc0ed, 0xc1cb,
+            0xc2db, 0xc3c7, 0xc4dc, 0xc4ea, 0xc5cc, 0xc6f7, 0xc7f8, 0xc8ab, 0xc8cb,
+            0xc8d5, 0xc8e7, 0xc9cf, 0xc9fa, 0xcab1, 0xcab5, 0xcac7, 0xcad0, 0xcad6,
+            0xcaf5, 0xcafd, 0xccec, 0xcdf8, 0xceaa, 0xcec4, 0xced2, 0xcee5, 0xcfb5,
+            0xcfc2, 0xcfd6, 0xd0c2, 0xd0c5, 0xd0d0, 0xd0d4, 0xd1a7, 0xd2aa, 0xd2b2,
+            0xd2b5, 0xd2bb, 0xd2d4, 0xd3c3, 0xd3d0, 0xd3fd, 0xd4c2, 0xd4da, 0xd5e2,
+            0xd6d0,
+        ];
+    }
+    name() {
+        return 'GB18030';
+    }
+    language() {
+        return 'zh';
+    }
+    nextChar(iter, det) {
+        iter.index = iter.nextIndex;
+        iter.error = false;
+        let firstByte = 0;
+        let secondByte = 0;
+        let thirdByte = 0;
+        let fourthByte = 0;
+        buildChar: {
+            firstByte = iter.charValue = iter.nextByte(det);
+            if (firstByte < 0) {
+                iter.done = true;
+                break buildChar;
+            }
+            if (firstByte <= 0x80) {
+                break buildChar;
+            }
+            secondByte = iter.nextByte(det);
+            iter.charValue = (iter.charValue << 8) | secondByte;
+            if (firstByte >= 0x81 && firstByte <= 0xfe) {
+                if ((secondByte >= 0x40 && secondByte <= 0x7e) ||
+                    (secondByte >= 80 && secondByte <= 0xfe)) {
+                    break buildChar;
+                }
+                if (secondByte >= 0x30 && secondByte <= 0x39) {
+                    thirdByte = iter.nextByte(det);
+                    if (thirdByte >= 0x81 && thirdByte <= 0xfe) {
+                        fourthByte = iter.nextByte(det);
+                        if (fourthByte >= 0x30 && fourthByte <= 0x39) {
+                            iter.charValue =
+                                (iter.charValue << 16) | (thirdByte << 8) | fourthByte;
+                            break buildChar;
+                        }
+                    }
+                }
+                iter.error = true;
+                break buildChar;
+            }
+        }
+        return iter.done == false;
+    }
+}
+exports.gb_18030 = gb_18030;
+//# sourceMappingURL=mbcs.js.map
+
+/***/ }),
+
+/***/ 9774:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.KOI8_R = exports.windows_1256 = exports.windows_1251 = exports.ISO_8859_9 = exports.ISO_8859_8 = exports.ISO_8859_7 = exports.ISO_8859_6 = exports.ISO_8859_5 = exports.ISO_8859_2 = exports.ISO_8859_1 = void 0;
+const match_1 = __importDefault(__nccwpck_require__(6721));
+const N_GRAM_MASK = 0xffffff;
+class NGramParser {
+    constructor(theNgramList, theByteMap) {
+        this.byteIndex = 0;
+        this.ngram = 0;
+        this.ngramCount = 0;
+        this.hitCount = 0;
+        this.spaceChar = 0x20;
+        this.ngramList = theNgramList;
+        this.byteMap = theByteMap;
+    }
+    search(table, value) {
+        let index = 0;
+        if (table[index + 32] <= value)
+            index += 32;
+        if (table[index + 16] <= value)
+            index += 16;
+        if (table[index + 8] <= value)
+            index += 8;
+        if (table[index + 4] <= value)
+            index += 4;
+        if (table[index + 2] <= value)
+            index += 2;
+        if (table[index + 1] <= value)
+            index += 1;
+        if (table[index] > value)
+            index -= 1;
+        if (index < 0 || table[index] != value)
+            return -1;
+        return index;
+    }
+    lookup(thisNgram) {
+        this.ngramCount += 1;
+        if (this.search(this.ngramList, thisNgram) >= 0) {
+            this.hitCount += 1;
+        }
+    }
+    addByte(b) {
+        this.ngram = ((this.ngram << 8) + (b & 0xff)) & N_GRAM_MASK;
+        this.lookup(this.ngram);
+    }
+    nextByte(det) {
+        if (this.byteIndex >= det.inputLen)
+            return -1;
+        return det.inputBytes[this.byteIndex++] & 0xff;
+    }
+    parse(det, spaceCh) {
+        let b, ignoreSpace = false;
+        this.spaceChar = spaceCh;
+        while ((b = this.nextByte(det)) >= 0) {
+            const mb = this.byteMap[b];
+            if (mb != 0) {
+                if (!(mb == this.spaceChar && ignoreSpace)) {
+                    this.addByte(mb);
+                }
+                ignoreSpace = mb == this.spaceChar;
+            }
+        }
+        this.addByte(this.spaceChar);
+        const rawPercent = this.hitCount / this.ngramCount;
+        if (rawPercent > 0.33)
+            return 98;
+        return Math.floor(rawPercent * 300.0);
+    }
+}
+class NGramsPlusLang {
+    constructor(la, ng) {
+        this.fLang = la;
+        this.fNGrams = ng;
+    }
+}
+const isFlatNgrams = (val) => Array.isArray(val) && isFinite(val[0]);
+class sbcs {
+    constructor() {
+        this.spaceChar = 0x20;
+        this.nGramLang = undefined;
+    }
+    ngrams() {
+        return [];
+    }
+    byteMap() {
+        return [];
+    }
+    name(_input) {
+        return 'sbcs';
+    }
+    language() {
+        return this.nGramLang;
+    }
+    match(det) {
+        this.nGramLang = undefined;
+        const ngrams = this.ngrams();
+        if (isFlatNgrams(ngrams)) {
+            const parser = new NGramParser(ngrams, this.byteMap());
+            const confidence = parser.parse(det, this.spaceChar);
+            return confidence <= 0 ? null : (0, match_1.default)(det, this, confidence);
+        }
+        let bestConfidence = -1;
+        for (let i = ngrams.length - 1; i >= 0; i--) {
+            const ngl = ngrams[i];
+            const parser = new NGramParser(ngl.fNGrams, this.byteMap());
+            const confidence = parser.parse(det, this.spaceChar);
+            if (confidence > bestConfidence) {
+                bestConfidence = confidence;
+                this.nGramLang = ngl.fLang;
+            }
+        }
+        return bestConfidence <= 0 ? null : (0, match_1.default)(det, this, bestConfidence);
+    }
+}
+class ISO_8859_1 extends sbcs {
+    byteMap() {
+        return [
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x00, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67,
+            0x68, 0x69, 0x6a, 0x6b, 0x6c, 0x6d, 0x6e, 0x6f, 0x70, 0x71, 0x72, 0x73,
+            0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7a, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6a, 0x6b,
+            0x6c, 0x6d, 0x6e, 0x6f, 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77,
+            0x78, 0x79, 0x7a, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0xaa, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0xb5, 0x20, 0x20, 0x20, 0x20, 0xba, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0xe0, 0xe1, 0xe2, 0xe3, 0xe4, 0xe5, 0xe6, 0xe7, 0xe8, 0xe9, 0xea, 0xeb,
+            0xec, 0xed, 0xee, 0xef, 0xf0, 0xf1, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0x20,
+            0xf8, 0xf9, 0xfa, 0xfb, 0xfc, 0xfd, 0xfe, 0xdf, 0xe0, 0xe1, 0xe2, 0xe3,
+            0xe4, 0xe5, 0xe6, 0xe7, 0xe8, 0xe9, 0xea, 0xeb, 0xec, 0xed, 0xee, 0xef,
+            0xf0, 0xf1, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0x20, 0xf8, 0xf9, 0xfa, 0xfb,
+            0xfc, 0xfd, 0xfe, 0xff,
+        ];
+    }
+    ngrams() {
+        return [
+            new NGramsPlusLang('da', [
+                0x206166, 0x206174, 0x206465, 0x20656e, 0x206572, 0x20666f, 0x206861,
+                0x206920, 0x206d65, 0x206f67, 0x2070e5, 0x207369, 0x207374, 0x207469,
+                0x207669, 0x616620, 0x616e20, 0x616e64, 0x617220, 0x617420, 0x646520,
+                0x64656e, 0x646572, 0x646574, 0x652073, 0x656420, 0x656465, 0x656e20,
+                0x656e64, 0x657220, 0x657265, 0x657320, 0x657420, 0x666f72, 0x676520,
+                0x67656e, 0x676572, 0x696765, 0x696c20, 0x696e67, 0x6b6520, 0x6b6b65,
+                0x6c6572, 0x6c6967, 0x6c6c65, 0x6d6564, 0x6e6465, 0x6e6520, 0x6e6720,
+                0x6e6765, 0x6f6720, 0x6f6d20, 0x6f7220, 0x70e520, 0x722064, 0x722065,
+                0x722073, 0x726520, 0x737465, 0x742073, 0x746520, 0x746572, 0x74696c,
+                0x766572,
+            ]),
+            new NGramsPlusLang('de', [
+                0x20616e, 0x206175, 0x206265, 0x206461, 0x206465, 0x206469, 0x206569,
+                0x206765, 0x206861, 0x20696e, 0x206d69, 0x207363, 0x207365, 0x20756e,
+                0x207665, 0x20766f, 0x207765, 0x207a75, 0x626572, 0x636820, 0x636865,
+                0x636874, 0x646173, 0x64656e, 0x646572, 0x646965, 0x652064, 0x652073,
+                0x65696e, 0x656974, 0x656e20, 0x657220, 0x657320, 0x67656e, 0x68656e,
+                0x687420, 0x696368, 0x696520, 0x696e20, 0x696e65, 0x697420, 0x6c6963,
+                0x6c6c65, 0x6e2061, 0x6e2064, 0x6e2073, 0x6e6420, 0x6e6465, 0x6e6520,
+                0x6e6720, 0x6e6765, 0x6e7465, 0x722064, 0x726465, 0x726569, 0x736368,
+                0x737465, 0x742064, 0x746520, 0x74656e, 0x746572, 0x756e64, 0x756e67,
+                0x766572,
+            ]),
+            new NGramsPlusLang('en', [
+                0x206120, 0x20616e, 0x206265, 0x20636f, 0x20666f, 0x206861, 0x206865,
+                0x20696e, 0x206d61, 0x206f66, 0x207072, 0x207265, 0x207361, 0x207374,
+                0x207468, 0x20746f, 0x207768, 0x616964, 0x616c20, 0x616e20, 0x616e64,
+                0x617320, 0x617420, 0x617465, 0x617469, 0x642061, 0x642074, 0x652061,
+                0x652073, 0x652074, 0x656420, 0x656e74, 0x657220, 0x657320, 0x666f72,
+                0x686174, 0x686520, 0x686572, 0x696420, 0x696e20, 0x696e67, 0x696f6e,
+                0x697320, 0x6e2061, 0x6e2074, 0x6e6420, 0x6e6720, 0x6e7420, 0x6f6620,
+                0x6f6e20, 0x6f7220, 0x726520, 0x727320, 0x732061, 0x732074, 0x736169,
+                0x737420, 0x742074, 0x746572, 0x746861, 0x746865, 0x74696f, 0x746f20,
+                0x747320,
+            ]),
+            new NGramsPlusLang('es', [
+                0x206120, 0x206361, 0x20636f, 0x206465, 0x20656c, 0x20656e, 0x206573,
+                0x20696e, 0x206c61, 0x206c6f, 0x207061, 0x20706f, 0x207072, 0x207175,
+                0x207265, 0x207365, 0x20756e, 0x207920, 0x612063, 0x612064, 0x612065,
+                0x61206c, 0x612070, 0x616369, 0x61646f, 0x616c20, 0x617220, 0x617320,
+                0x6369f3, 0x636f6e, 0x646520, 0x64656c, 0x646f20, 0x652064, 0x652065,
+                0x65206c, 0x656c20, 0x656e20, 0x656e74, 0x657320, 0x657374, 0x69656e,
+                0x69f36e, 0x6c6120, 0x6c6f73, 0x6e2065, 0x6e7465, 0x6f2064, 0x6f2065,
+                0x6f6e20, 0x6f7220, 0x6f7320, 0x706172, 0x717565, 0x726120, 0x726573,
+                0x732064, 0x732065, 0x732070, 0x736520, 0x746520, 0x746f20, 0x756520,
+                0xf36e20,
+            ]),
+            new NGramsPlusLang('fr', [
+                0x206175, 0x20636f, 0x206461, 0x206465, 0x206475, 0x20656e, 0x206574,
+                0x206c61, 0x206c65, 0x207061, 0x20706f, 0x207072, 0x207175, 0x207365,
+                0x20736f, 0x20756e, 0x20e020, 0x616e74, 0x617469, 0x636520, 0x636f6e,
+                0x646520, 0x646573, 0x647520, 0x652061, 0x652063, 0x652064, 0x652065,
+                0x65206c, 0x652070, 0x652073, 0x656e20, 0x656e74, 0x657220, 0x657320,
+                0x657420, 0x657572, 0x696f6e, 0x697320, 0x697420, 0x6c6120, 0x6c6520,
+                0x6c6573, 0x6d656e, 0x6e2064, 0x6e6520, 0x6e7320, 0x6e7420, 0x6f6e20,
+                0x6f6e74, 0x6f7572, 0x717565, 0x72206c, 0x726520, 0x732061, 0x732064,
+                0x732065, 0x73206c, 0x732070, 0x742064, 0x746520, 0x74696f, 0x756520,
+                0x757220,
+            ]),
+            new NGramsPlusLang('it', [
+                0x20616c, 0x206368, 0x20636f, 0x206465, 0x206469, 0x206520, 0x20696c,
+                0x20696e, 0x206c61, 0x207065, 0x207072, 0x20756e, 0x612063, 0x612064,
+                0x612070, 0x612073, 0x61746f, 0x636865, 0x636f6e, 0x64656c, 0x646920,
+                0x652061, 0x652063, 0x652064, 0x652069, 0x65206c, 0x652070, 0x652073,
+                0x656c20, 0x656c6c, 0x656e74, 0x657220, 0x686520, 0x692061, 0x692063,
+                0x692064, 0x692073, 0x696120, 0x696c20, 0x696e20, 0x696f6e, 0x6c6120,
+                0x6c6520, 0x6c6920, 0x6c6c61, 0x6e6520, 0x6e6920, 0x6e6f20, 0x6e7465,
+                0x6f2061, 0x6f2064, 0x6f2069, 0x6f2073, 0x6f6e20, 0x6f6e65, 0x706572,
+                0x726120, 0x726520, 0x736920, 0x746120, 0x746520, 0x746920, 0x746f20,
+                0x7a696f,
+            ]),
+            new NGramsPlusLang('nl', [
+                0x20616c, 0x206265, 0x206461, 0x206465, 0x206469, 0x206565, 0x20656e,
+                0x206765, 0x206865, 0x20696e, 0x206d61, 0x206d65, 0x206f70, 0x207465,
+                0x207661, 0x207665, 0x20766f, 0x207765, 0x207a69, 0x61616e, 0x616172,
+                0x616e20, 0x616e64, 0x617220, 0x617420, 0x636874, 0x646520, 0x64656e,
+                0x646572, 0x652062, 0x652076, 0x65656e, 0x656572, 0x656e20, 0x657220,
+                0x657273, 0x657420, 0x67656e, 0x686574, 0x696520, 0x696e20, 0x696e67,
+                0x697320, 0x6e2062, 0x6e2064, 0x6e2065, 0x6e2068, 0x6e206f, 0x6e2076,
+                0x6e6465, 0x6e6720, 0x6f6e64, 0x6f6f72, 0x6f7020, 0x6f7220, 0x736368,
+                0x737465, 0x742064, 0x746520, 0x74656e, 0x746572, 0x76616e, 0x766572,
+                0x766f6f,
+            ]),
+            new NGramsPlusLang('no', [
+                0x206174, 0x206176, 0x206465, 0x20656e, 0x206572, 0x20666f, 0x206861,
+                0x206920, 0x206d65, 0x206f67, 0x2070e5, 0x207365, 0x20736b, 0x20736f,
+                0x207374, 0x207469, 0x207669, 0x20e520, 0x616e64, 0x617220, 0x617420,
+                0x646520, 0x64656e, 0x646574, 0x652073, 0x656420, 0x656e20, 0x656e65,
+                0x657220, 0x657265, 0x657420, 0x657474, 0x666f72, 0x67656e, 0x696b6b,
+                0x696c20, 0x696e67, 0x6b6520, 0x6b6b65, 0x6c6520, 0x6c6c65, 0x6d6564,
+                0x6d656e, 0x6e2073, 0x6e6520, 0x6e6720, 0x6e6765, 0x6e6e65, 0x6f6720,
+                0x6f6d20, 0x6f7220, 0x70e520, 0x722073, 0x726520, 0x736f6d, 0x737465,
+                0x742073, 0x746520, 0x74656e, 0x746572, 0x74696c, 0x747420, 0x747465,
+                0x766572,
+            ]),
+            new NGramsPlusLang('pt', [
+                0x206120, 0x20636f, 0x206461, 0x206465, 0x20646f, 0x206520, 0x206573,
+                0x206d61, 0x206e6f, 0x206f20, 0x207061, 0x20706f, 0x207072, 0x207175,
+                0x207265, 0x207365, 0x20756d, 0x612061, 0x612063, 0x612064, 0x612070,
+                0x616465, 0x61646f, 0x616c20, 0x617220, 0x617261, 0x617320, 0x636f6d,
+                0x636f6e, 0x646120, 0x646520, 0x646f20, 0x646f73, 0x652061, 0x652064,
+                0x656d20, 0x656e74, 0x657320, 0x657374, 0x696120, 0x696361, 0x6d656e,
+                0x6e7465, 0x6e746f, 0x6f2061, 0x6f2063, 0x6f2064, 0x6f2065, 0x6f2070,
+                0x6f7320, 0x706172, 0x717565, 0x726120, 0x726573, 0x732061, 0x732064,
+                0x732065, 0x732070, 0x737461, 0x746520, 0x746f20, 0x756520, 0xe36f20,
+                0xe7e36f,
+            ]),
+            new NGramsPlusLang('sv', [
+                0x206174, 0x206176, 0x206465, 0x20656e, 0x2066f6, 0x206861, 0x206920,
+                0x20696e, 0x206b6f, 0x206d65, 0x206f63, 0x2070e5, 0x20736b, 0x20736f,
+                0x207374, 0x207469, 0x207661, 0x207669, 0x20e472, 0x616465, 0x616e20,
+                0x616e64, 0x617220, 0x617474, 0x636820, 0x646520, 0x64656e, 0x646572,
+                0x646574, 0x656420, 0x656e20, 0x657220, 0x657420, 0x66f672, 0x67656e,
+                0x696c6c, 0x696e67, 0x6b6120, 0x6c6c20, 0x6d6564, 0x6e2073, 0x6e6120,
+                0x6e6465, 0x6e6720, 0x6e6765, 0x6e696e, 0x6f6368, 0x6f6d20, 0x6f6e20,
+                0x70e520, 0x722061, 0x722073, 0x726120, 0x736b61, 0x736f6d, 0x742073,
+                0x746120, 0x746520, 0x746572, 0x74696c, 0x747420, 0x766172, 0xe47220,
+                0xf67220,
+            ]),
+        ];
+    }
+    name(input) {
+        return input && input.c1Bytes ? 'windows-1252' : 'ISO-8859-1';
+    }
+}
+exports.ISO_8859_1 = ISO_8859_1;
+class ISO_8859_2 extends sbcs {
+    byteMap() {
+        return [
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x00, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67,
+            0x68, 0x69, 0x6a, 0x6b, 0x6c, 0x6d, 0x6e, 0x6f, 0x70, 0x71, 0x72, 0x73,
+            0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7a, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6a, 0x6b,
+            0x6c, 0x6d, 0x6e, 0x6f, 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77,
+            0x78, 0x79, 0x7a, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0xb1, 0x20, 0xb3, 0x20, 0xb5, 0xb6, 0x20,
+            0x20, 0xb9, 0xba, 0xbb, 0xbc, 0x20, 0xbe, 0xbf, 0x20, 0xb1, 0x20, 0xb3,
+            0x20, 0xb5, 0xb6, 0xb7, 0x20, 0xb9, 0xba, 0xbb, 0xbc, 0x20, 0xbe, 0xbf,
+            0xe0, 0xe1, 0xe2, 0xe3, 0xe4, 0xe5, 0xe6, 0xe7, 0xe8, 0xe9, 0xea, 0xeb,
+            0xec, 0xed, 0xee, 0xef, 0xf0, 0xf1, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0x20,
+            0xf8, 0xf9, 0xfa, 0xfb, 0xfc, 0xfd, 0xfe, 0xdf, 0xe0, 0xe1, 0xe2, 0xe3,
+            0xe4, 0xe5, 0xe6, 0xe7, 0xe8, 0xe9, 0xea, 0xeb, 0xec, 0xed, 0xee, 0xef,
+            0xf0, 0xf1, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0x20, 0xf8, 0xf9, 0xfa, 0xfb,
+            0xfc, 0xfd, 0xfe, 0x20,
+        ];
+    }
+    ngrams() {
+        return [
+            new NGramsPlusLang('cs', [
+                0x206120, 0x206279, 0x20646f, 0x206a65, 0x206e61, 0x206e65, 0x206f20,
+                0x206f64, 0x20706f, 0x207072, 0x2070f8, 0x20726f, 0x207365, 0x20736f,
+                0x207374, 0x20746f, 0x207620, 0x207679, 0x207a61, 0x612070, 0x636520,
+                0x636820, 0x652070, 0x652073, 0x652076, 0x656d20, 0x656eed, 0x686f20,
+                0x686f64, 0x697374, 0x6a6520, 0x6b7465, 0x6c6520, 0x6c6920, 0x6e6120,
+                0x6ee920, 0x6eec20, 0x6eed20, 0x6f2070, 0x6f646e, 0x6f6a69, 0x6f7374,
+                0x6f7520, 0x6f7661, 0x706f64, 0x706f6a, 0x70726f, 0x70f865, 0x736520,
+                0x736f75, 0x737461, 0x737469, 0x73746e, 0x746572, 0x746eed, 0x746f20,
+                0x752070, 0xbe6520, 0xe16eed, 0xe9686f, 0xed2070, 0xed2073, 0xed6d20,
+                0xf86564,
+            ]),
+            new NGramsPlusLang('hu', [
+                0x206120, 0x20617a, 0x206265, 0x206567, 0x20656c, 0x206665, 0x206861,
+                0x20686f, 0x206973, 0x206b65, 0x206b69, 0x206bf6, 0x206c65, 0x206d61,
+                0x206d65, 0x206d69, 0x206e65, 0x20737a, 0x207465, 0x20e973, 0x612061,
+                0x61206b, 0x61206d, 0x612073, 0x616b20, 0x616e20, 0x617a20, 0x62616e,
+                0x62656e, 0x656779, 0x656b20, 0x656c20, 0x656c65, 0x656d20, 0x656e20,
+                0x657265, 0x657420, 0x657465, 0x657474, 0x677920, 0x686f67, 0x696e74,
+                0x697320, 0x6b2061, 0x6bf67a, 0x6d6567, 0x6d696e, 0x6e2061, 0x6e616b,
+                0x6e656b, 0x6e656d, 0x6e7420, 0x6f6779, 0x732061, 0x737a65, 0x737a74,
+                0x737ae1, 0x73e967, 0x742061, 0x747420, 0x74e173, 0x7a6572, 0xe16e20,
+                0xe97320,
+            ]),
+            new NGramsPlusLang('pl', [
+                0x20637a, 0x20646f, 0x206920, 0x206a65, 0x206b6f, 0x206d61, 0x206d69,
+                0x206e61, 0x206e69, 0x206f64, 0x20706f, 0x207072, 0x207369, 0x207720,
+                0x207769, 0x207779, 0x207a20, 0x207a61, 0x612070, 0x612077, 0x616e69,
+                0x636820, 0x637a65, 0x637a79, 0x646f20, 0x647a69, 0x652070, 0x652073,
+                0x652077, 0x65207a, 0x65676f, 0x656a20, 0x656d20, 0x656e69, 0x676f20,
+                0x696120, 0x696520, 0x69656a, 0x6b6120, 0x6b6920, 0x6b6965, 0x6d6965,
+                0x6e6120, 0x6e6961, 0x6e6965, 0x6f2070, 0x6f7761, 0x6f7769, 0x706f6c,
+                0x707261, 0x70726f, 0x70727a, 0x727a65, 0x727a79, 0x7369ea, 0x736b69,
+                0x737461, 0x776965, 0x796368, 0x796d20, 0x7a6520, 0x7a6965, 0x7a7920,
+                0xf37720,
+            ]),
+            new NGramsPlusLang('ro', [
+                0x206120, 0x206163, 0x206361, 0x206365, 0x20636f, 0x206375, 0x206465,
+                0x206469, 0x206c61, 0x206d61, 0x207065, 0x207072, 0x207365, 0x2073e3,
+                0x20756e, 0x20ba69, 0x20ee6e, 0x612063, 0x612064, 0x617265, 0x617420,
+                0x617465, 0x617520, 0x636172, 0x636f6e, 0x637520, 0x63e320, 0x646520,
+                0x652061, 0x652063, 0x652064, 0x652070, 0x652073, 0x656120, 0x656920,
+                0x656c65, 0x656e74, 0x657374, 0x692061, 0x692063, 0x692064, 0x692070,
+                0x696520, 0x696920, 0x696e20, 0x6c6120, 0x6c6520, 0x6c6f72, 0x6c7569,
+                0x6e6520, 0x6e7472, 0x6f7220, 0x70656e, 0x726520, 0x726561, 0x727520,
+                0x73e320, 0x746520, 0x747275, 0x74e320, 0x756920, 0x756c20, 0xba6920,
+                0xee6e20,
+            ]),
+        ];
+    }
+    name(det) {
+        return det && det.c1Bytes ? 'windows-1250' : 'ISO-8859-2';
+    }
+}
+exports.ISO_8859_2 = ISO_8859_2;
+class ISO_8859_5 extends sbcs {
+    byteMap() {
+        return [
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x00, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67,
+            0x68, 0x69, 0x6a, 0x6b, 0x6c, 0x6d, 0x6e, 0x6f, 0x70, 0x71, 0x72, 0x73,
+            0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7a, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6a, 0x6b,
+            0x6c, 0x6d, 0x6e, 0x6f, 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77,
+            0x78, 0x79, 0x7a, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0xf1, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0xf7,
+            0xf8, 0xf9, 0xfa, 0xfb, 0xfc, 0x20, 0xfe, 0xff, 0xd0, 0xd1, 0xd2, 0xd3,
+            0xd4, 0xd5, 0xd6, 0xd7, 0xd8, 0xd9, 0xda, 0xdb, 0xdc, 0xdd, 0xde, 0xdf,
+            0xe0, 0xe1, 0xe2, 0xe3, 0xe4, 0xe5, 0xe6, 0xe7, 0xe8, 0xe9, 0xea, 0xeb,
+            0xec, 0xed, 0xee, 0xef, 0xd0, 0xd1, 0xd2, 0xd3, 0xd4, 0xd5, 0xd6, 0xd7,
+            0xd8, 0xd9, 0xda, 0xdb, 0xdc, 0xdd, 0xde, 0xdf, 0xe0, 0xe1, 0xe2, 0xe3,
+            0xe4, 0xe5, 0xe6, 0xe7, 0xe8, 0xe9, 0xea, 0xeb, 0xec, 0xed, 0xee, 0xef,
+            0x20, 0xf1, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0xf7, 0xf8, 0xf9, 0xfa, 0xfb,
+            0xfc, 0x20, 0xfe, 0xff,
+        ];
+    }
+    ngrams() {
+        return [
+            0x20d220, 0x20d2de, 0x20d4de, 0x20d7d0, 0x20d820, 0x20dad0, 0x20dade,
+            0x20ddd0, 0x20ddd5, 0x20ded1, 0x20dfde, 0x20dfe0, 0x20e0d0, 0x20e1de,
+            0x20e1e2, 0x20e2de, 0x20e7e2, 0x20ede2, 0xd0ddd8, 0xd0e2ec, 0xd3de20,
+            0xd5dbec, 0xd5ddd8, 0xd5e1e2, 0xd5e220, 0xd820df, 0xd8d520, 0xd8d820,
+            0xd8ef20, 0xdbd5dd, 0xdbd820, 0xdbecdd, 0xddd020, 0xddd520, 0xddd8d5,
+            0xddd8ef, 0xddde20, 0xddded2, 0xde20d2, 0xde20df, 0xde20e1, 0xded220,
+            0xded2d0, 0xded3de, 0xded920, 0xdedbec, 0xdedc20, 0xdee1e2, 0xdfdedb,
+            0xdfe0d5, 0xdfe0d8, 0xdfe0de, 0xe0d0d2, 0xe0d5d4, 0xe1e2d0, 0xe1e2d2,
+            0xe1e2d8, 0xe1ef20, 0xe2d5db, 0xe2de20, 0xe2dee0, 0xe2ec20, 0xe7e2de,
+            0xebe520,
+        ];
+    }
+    name() {
+        return 'ISO-8859-5';
+    }
+    language() {
+        return 'ru';
+    }
+}
+exports.ISO_8859_5 = ISO_8859_5;
+class ISO_8859_6 extends sbcs {
+    byteMap() {
+        return [
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x00, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67,
+            0x68, 0x69, 0x6a, 0x6b, 0x6c, 0x6d, 0x6e, 0x6f, 0x70, 0x71, 0x72, 0x73,
+            0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7a, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6a, 0x6b,
+            0x6c, 0x6d, 0x6e, 0x6f, 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77,
+            0x78, 0x79, 0x7a, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xc6, 0xc7, 0xc8, 0xc9, 0xca, 0xcb,
+            0xcc, 0xcd, 0xce, 0xcf, 0xd0, 0xd1, 0xd2, 0xd3, 0xd4, 0xd5, 0xd6, 0xd7,
+            0xd8, 0xd9, 0xda, 0x20, 0x20, 0x20, 0x20, 0x20, 0xe0, 0xe1, 0xe2, 0xe3,
+            0xe4, 0xe5, 0xe6, 0xe7, 0xe8, 0xe9, 0xea, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20,
+        ];
+    }
+    ngrams() {
+        return [
+            0x20c7e4, 0x20c7e6, 0x20c8c7, 0x20d9e4, 0x20e1ea, 0x20e4e4, 0x20e5e6,
+            0x20e8c7, 0xc720c7, 0xc7c120, 0xc7ca20, 0xc7d120, 0xc7e420, 0xc7e4c3,
+            0xc7e4c7, 0xc7e4c8, 0xc7e4ca, 0xc7e4cc, 0xc7e4cd, 0xc7e4cf, 0xc7e4d3,
+            0xc7e4d9, 0xc7e4e2, 0xc7e4e5, 0xc7e4e8, 0xc7e4ea, 0xc7e520, 0xc7e620,
+            0xc7e6ca, 0xc820c7, 0xc920c7, 0xc920e1, 0xc920e4, 0xc920e5, 0xc920e8,
+            0xca20c7, 0xcf20c7, 0xcfc920, 0xd120c7, 0xd1c920, 0xd320c7, 0xd920c7,
+            0xd9e4e9, 0xe1ea20, 0xe420c7, 0xe4c920, 0xe4e920, 0xe4ea20, 0xe520c7,
+            0xe5c720, 0xe5c920, 0xe5e620, 0xe620c7, 0xe720c7, 0xe7c720, 0xe8c7e4,
+            0xe8e620, 0xe920c7, 0xea20c7, 0xea20e5, 0xea20e8, 0xeac920, 0xead120,
+            0xeae620,
+        ];
+    }
+    name() {
+        return 'ISO-8859-6';
+    }
+    language() {
+        return 'ar';
+    }
+}
+exports.ISO_8859_6 = ISO_8859_6;
+class ISO_8859_7 extends sbcs {
+    byteMap() {
+        return [
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x00, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67,
+            0x68, 0x69, 0x6a, 0x6b, 0x6c, 0x6d, 0x6e, 0x6f, 0x70, 0x71, 0x72, 0x73,
+            0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7a, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6a, 0x6b,
+            0x6c, 0x6d, 0x6e, 0x6f, 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77,
+            0x78, 0x79, 0x7a, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0xa1, 0xa2, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0xdc, 0x20, 0xdd, 0xde, 0xdf, 0x20, 0xfc, 0x20, 0xfd, 0xfe,
+            0xc0, 0xe1, 0xe2, 0xe3, 0xe4, 0xe5, 0xe6, 0xe7, 0xe8, 0xe9, 0xea, 0xeb,
+            0xec, 0xed, 0xee, 0xef, 0xf0, 0xf1, 0x20, 0xf3, 0xf4, 0xf5, 0xf6, 0xf7,
+            0xf8, 0xf9, 0xfa, 0xfb, 0xdc, 0xdd, 0xde, 0xdf, 0xe0, 0xe1, 0xe2, 0xe3,
+            0xe4, 0xe5, 0xe6, 0xe7, 0xe8, 0xe9, 0xea, 0xeb, 0xec, 0xed, 0xee, 0xef,
+            0xf0, 0xf1, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0xf7, 0xf8, 0xf9, 0xfa, 0xfb,
+            0xfc, 0xfd, 0xfe, 0x20,
+        ];
+    }
+    ngrams() {
+        return [
+            0x20e1ed, 0x20e1f0, 0x20e3e9, 0x20e4e9, 0x20e5f0, 0x20e720, 0x20eae1,
+            0x20ece5, 0x20ede1, 0x20ef20, 0x20f0e1, 0x20f0ef, 0x20f0f1, 0x20f3f4,
+            0x20f3f5, 0x20f4e7, 0x20f4ef, 0xdfe120, 0xe120e1, 0xe120f4, 0xe1e920,
+            0xe1ed20, 0xe1f0fc, 0xe1f220, 0xe3e9e1, 0xe5e920, 0xe5f220, 0xe720f4,
+            0xe7ed20, 0xe7f220, 0xe920f4, 0xe9e120, 0xe9eade, 0xe9f220, 0xeae1e9,
+            0xeae1f4, 0xece520, 0xed20e1, 0xed20e5, 0xed20f0, 0xede120, 0xeff220,
+            0xeff520, 0xf0eff5, 0xf0f1ef, 0xf0fc20, 0xf220e1, 0xf220e5, 0xf220ea,
+            0xf220f0, 0xf220f4, 0xf3e520, 0xf3e720, 0xf3f4ef, 0xf4e120, 0xf4e1e9,
+            0xf4e7ed, 0xf4e7f2, 0xf4e9ea, 0xf4ef20, 0xf4eff5, 0xf4f9ed, 0xf9ed20,
+            0xfeed20,
+        ];
+    }
+    name(det) {
+        return det && det.c1Bytes ? 'windows-1253' : 'ISO-8859-7';
+    }
+    language() {
+        return 'el';
+    }
+}
+exports.ISO_8859_7 = ISO_8859_7;
+class ISO_8859_8 extends sbcs {
+    byteMap() {
+        return [
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x00, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67,
+            0x68, 0x69, 0x6a, 0x6b, 0x6c, 0x6d, 0x6e, 0x6f, 0x70, 0x71, 0x72, 0x73,
+            0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7a, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6a, 0x6b,
+            0x6c, 0x6d, 0x6e, 0x6f, 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77,
+            0x78, 0x79, 0x7a, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0xb5, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0xe0, 0xe1, 0xe2, 0xe3,
+            0xe4, 0xe5, 0xe6, 0xe7, 0xe8, 0xe9, 0xea, 0xeb, 0xec, 0xed, 0xee, 0xef,
+            0xf0, 0xf1, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0xf7, 0xf8, 0xf9, 0xfa, 0x20,
+            0x20, 0x20, 0x20, 0x20,
+        ];
+    }
+    ngrams() {
+        return [
+            new NGramsPlusLang('he', [
+                0x20e0e5, 0x20e0e7, 0x20e0e9, 0x20e0fa, 0x20e1e9, 0x20e1ee, 0x20e4e0,
+                0x20e4e5, 0x20e4e9, 0x20e4ee, 0x20e4f2, 0x20e4f9, 0x20e4fa, 0x20ece0,
+                0x20ece4, 0x20eee0, 0x20f2ec, 0x20f9ec, 0xe0fa20, 0xe420e0, 0xe420e1,
+                0xe420e4, 0xe420ec, 0xe420ee, 0xe420f9, 0xe4e5e0, 0xe5e020, 0xe5ed20,
+                0xe5ef20, 0xe5f820, 0xe5fa20, 0xe920e4, 0xe9e420, 0xe9e5fa, 0xe9e9ed,
+                0xe9ed20, 0xe9ef20, 0xe9f820, 0xe9fa20, 0xec20e0, 0xec20e4, 0xece020,
+                0xece420, 0xed20e0, 0xed20e1, 0xed20e4, 0xed20ec, 0xed20ee, 0xed20f9,
+                0xeee420, 0xef20e4, 0xf0e420, 0xf0e920, 0xf0e9ed, 0xf2ec20, 0xf820e4,
+                0xf8e9ed, 0xf9ec20, 0xfa20e0, 0xfa20e1, 0xfa20e4, 0xfa20ec, 0xfa20ee,
+                0xfa20f9,
+            ]),
+            new NGramsPlusLang('he', [
+                0x20e0e5, 0x20e0ec, 0x20e4e9, 0x20e4ec, 0x20e4ee, 0x20e4f0, 0x20e9f0,
+                0x20ecf2, 0x20ecf9, 0x20ede5, 0x20ede9, 0x20efe5, 0x20efe9, 0x20f8e5,
+                0x20f8e9, 0x20fae0, 0x20fae5, 0x20fae9, 0xe020e4, 0xe020ec, 0xe020ed,
+                0xe020fa, 0xe0e420, 0xe0e5e4, 0xe0ec20, 0xe0ee20, 0xe120e4, 0xe120ed,
+                0xe120fa, 0xe420e4, 0xe420e9, 0xe420ec, 0xe420ed, 0xe420ef, 0xe420f8,
+                0xe420fa, 0xe4ec20, 0xe5e020, 0xe5e420, 0xe7e020, 0xe9e020, 0xe9e120,
+                0xe9e420, 0xec20e4, 0xec20ed, 0xec20fa, 0xecf220, 0xecf920, 0xede9e9,
+                0xede9f0, 0xede9f8, 0xee20e4, 0xee20ed, 0xee20fa, 0xeee120, 0xeee420,
+                0xf2e420, 0xf920e4, 0xf920ed, 0xf920fa, 0xf9e420, 0xfae020, 0xfae420,
+                0xfae5e9,
+            ]),
+        ];
+    }
+    name(det) {
+        return det && det.c1Bytes ? 'windows-1255' : 'ISO-8859-8';
+    }
+    language() {
+        return 'he';
+    }
+}
+exports.ISO_8859_8 = ISO_8859_8;
+class ISO_8859_9 extends sbcs {
+    byteMap() {
+        return [
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x00, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67,
+            0x68, 0x69, 0x6a, 0x6b, 0x6c, 0x6d, 0x6e, 0x6f, 0x70, 0x71, 0x72, 0x73,
+            0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7a, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6a, 0x6b,
+            0x6c, 0x6d, 0x6e, 0x6f, 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77,
+            0x78, 0x79, 0x7a, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0xaa, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0xb5, 0x20, 0x20, 0x20, 0x20, 0xba, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0xe0, 0xe1, 0xe2, 0xe3, 0xe4, 0xe5, 0xe6, 0xe7, 0xe8, 0xe9, 0xea, 0xeb,
+            0xec, 0xed, 0xee, 0xef, 0xf0, 0xf1, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0x20,
+            0xf8, 0xf9, 0xfa, 0xfb, 0xfc, 0x69, 0xfe, 0xdf, 0xe0, 0xe1, 0xe2, 0xe3,
+            0xe4, 0xe5, 0xe6, 0xe7, 0xe8, 0xe9, 0xea, 0xeb, 0xec, 0xed, 0xee, 0xef,
+            0xf0, 0xf1, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0x20, 0xf8, 0xf9, 0xfa, 0xfb,
+            0xfc, 0xfd, 0xfe, 0xff,
+        ];
+    }
+    ngrams() {
+        return [
+            0x206261, 0x206269, 0x206275, 0x206461, 0x206465, 0x206765, 0x206861,
+            0x20696c, 0x206b61, 0x206b6f, 0x206d61, 0x206f6c, 0x207361, 0x207461,
+            0x207665, 0x207961, 0x612062, 0x616b20, 0x616c61, 0x616d61, 0x616e20,
+            0x616efd, 0x617220, 0x617261, 0x6172fd, 0x6173fd, 0x617961, 0x626972,
+            0x646120, 0x646520, 0x646920, 0x652062, 0x65206b, 0x656469, 0x656e20,
+            0x657220, 0x657269, 0x657369, 0x696c65, 0x696e20, 0x696e69, 0x697220,
+            0x6c616e, 0x6c6172, 0x6c6520, 0x6c6572, 0x6e2061, 0x6e2062, 0x6e206b,
+            0x6e6461, 0x6e6465, 0x6e6520, 0x6e6920, 0x6e696e, 0x6efd20, 0x72696e,
+            0x72fd6e, 0x766520, 0x796120, 0x796f72, 0xfd6e20, 0xfd6e64, 0xfd6efd,
+            0xfdf0fd,
+        ];
+    }
+    name(det) {
+        return det && det.c1Bytes ? 'windows-1254' : 'ISO-8859-9';
+    }
+    language() {
+        return 'tr';
+    }
+}
+exports.ISO_8859_9 = ISO_8859_9;
+class windows_1251 extends sbcs {
+    byteMap() {
+        return [
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x00, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67,
+            0x68, 0x69, 0x6a, 0x6b, 0x6c, 0x6d, 0x6e, 0x6f, 0x70, 0x71, 0x72, 0x73,
+            0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7a, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6a, 0x6b,
+            0x6c, 0x6d, 0x6e, 0x6f, 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77,
+            0x78, 0x79, 0x7a, 0x20, 0x20, 0x20, 0x20, 0x20, 0x90, 0x83, 0x20, 0x83,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x9a, 0x20, 0x9c, 0x9d, 0x9e, 0x9f,
+            0x90, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x9a, 0x20,
+            0x9c, 0x9d, 0x9e, 0x9f, 0x20, 0xa2, 0xa2, 0xbc, 0x20, 0xb4, 0x20, 0x20,
+            0xb8, 0x20, 0xba, 0x20, 0x20, 0x20, 0x20, 0xbf, 0x20, 0x20, 0xb3, 0xb3,
+            0xb4, 0xb5, 0x20, 0x20, 0xb8, 0x20, 0xba, 0x20, 0xbc, 0xbe, 0xbe, 0xbf,
+            0xe0, 0xe1, 0xe2, 0xe3, 0xe4, 0xe5, 0xe6, 0xe7, 0xe8, 0xe9, 0xea, 0xeb,
+            0xec, 0xed, 0xee, 0xef, 0xf0, 0xf1, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0xf7,
+            0xf8, 0xf9, 0xfa, 0xfb, 0xfc, 0xfd, 0xfe, 0xff, 0xe0, 0xe1, 0xe2, 0xe3,
+            0xe4, 0xe5, 0xe6, 0xe7, 0xe8, 0xe9, 0xea, 0xeb, 0xec, 0xed, 0xee, 0xef,
+            0xf0, 0xf1, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0xf7, 0xf8, 0xf9, 0xfa, 0xfb,
+            0xfc, 0xfd, 0xfe, 0xff,
+        ];
+    }
+    ngrams() {
+        return [
+            0x20e220, 0x20e2ee, 0x20e4ee, 0x20e7e0, 0x20e820, 0x20eae0, 0x20eaee,
+            0x20ede0, 0x20ede5, 0x20eee1, 0x20efee, 0x20eff0, 0x20f0e0, 0x20f1ee,
+            0x20f1f2, 0x20f2ee, 0x20f7f2, 0x20fdf2, 0xe0ede8, 0xe0f2fc, 0xe3ee20,
+            0xe5ebfc, 0xe5ede8, 0xe5f1f2, 0xe5f220, 0xe820ef, 0xe8e520, 0xe8e820,
+            0xe8ff20, 0xebe5ed, 0xebe820, 0xebfced, 0xede020, 0xede520, 0xede8e5,
+            0xede8ff, 0xedee20, 0xedeee2, 0xee20e2, 0xee20ef, 0xee20f1, 0xeee220,
+            0xeee2e0, 0xeee3ee, 0xeee920, 0xeeebfc, 0xeeec20, 0xeef1f2, 0xefeeeb,
+            0xeff0e5, 0xeff0e8, 0xeff0ee, 0xf0e0e2, 0xf0e5e4, 0xf1f2e0, 0xf1f2e2,
+            0xf1f2e8, 0xf1ff20, 0xf2e5eb, 0xf2ee20, 0xf2eef0, 0xf2fc20, 0xf7f2ee,
+            0xfbf520,
+        ];
+    }
+    name() {
+        return 'windows-1251';
+    }
+    language() {
+        return 'ru';
+    }
+}
+exports.windows_1251 = windows_1251;
+class windows_1256 extends sbcs {
+    byteMap() {
+        return [
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x00, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67,
+            0x68, 0x69, 0x6a, 0x6b, 0x6c, 0x6d, 0x6e, 0x6f, 0x70, 0x71, 0x72, 0x73,
+            0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7a, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6a, 0x6b,
+            0x6c, 0x6d, 0x6e, 0x6f, 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77,
+            0x78, 0x79, 0x7a, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x81, 0x20, 0x83,
+            0x20, 0x20, 0x20, 0x20, 0x88, 0x20, 0x8a, 0x20, 0x9c, 0x8d, 0x8e, 0x8f,
+            0x90, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x98, 0x20, 0x9a, 0x20,
+            0x9c, 0x20, 0x20, 0x9f, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0xaa, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0xb5, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xc6, 0xc7, 0xc8, 0xc9, 0xca, 0xcb,
+            0xcc, 0xcd, 0xce, 0xcf, 0xd0, 0xd1, 0xd2, 0xd3, 0xd4, 0xd5, 0xd6, 0x20,
+            0xd8, 0xd9, 0xda, 0xdb, 0xdc, 0xdd, 0xde, 0xdf, 0xe0, 0xe1, 0xe2, 0xe3,
+            0xe4, 0xe5, 0xe6, 0xe7, 0xe8, 0xe9, 0xea, 0xeb, 0xec, 0xed, 0xee, 0xef,
+            0x20, 0x20, 0x20, 0x20, 0xf4, 0x20, 0x20, 0x20, 0x20, 0xf9, 0x20, 0xfb,
+            0xfc, 0x20, 0x20, 0xff,
+        ];
+    }
+    ngrams() {
+        return [
+            0x20c7e1, 0x20c7e4, 0x20c8c7, 0x20dae1, 0x20dded, 0x20e1e1, 0x20e3e4,
+            0x20e6c7, 0xc720c7, 0xc7c120, 0xc7ca20, 0xc7d120, 0xc7e120, 0xc7e1c3,
+            0xc7e1c7, 0xc7e1c8, 0xc7e1ca, 0xc7e1cc, 0xc7e1cd, 0xc7e1cf, 0xc7e1d3,
+            0xc7e1da, 0xc7e1de, 0xc7e1e3, 0xc7e1e6, 0xc7e1ed, 0xc7e320, 0xc7e420,
+            0xc7e4ca, 0xc820c7, 0xc920c7, 0xc920dd, 0xc920e1, 0xc920e3, 0xc920e6,
+            0xca20c7, 0xcf20c7, 0xcfc920, 0xd120c7, 0xd1c920, 0xd320c7, 0xda20c7,
+            0xdae1ec, 0xdded20, 0xe120c7, 0xe1c920, 0xe1ec20, 0xe1ed20, 0xe320c7,
+            0xe3c720, 0xe3c920, 0xe3e420, 0xe420c7, 0xe520c7, 0xe5c720, 0xe6c7e1,
+            0xe6e420, 0xec20c7, 0xed20c7, 0xed20e3, 0xed20e6, 0xedc920, 0xedd120,
+            0xede420,
+        ];
+    }
+    name() {
+        return 'windows-1256';
+    }
+    language() {
+        return 'ar';
+    }
+}
+exports.windows_1256 = windows_1256;
+class KOI8_R extends sbcs {
+    byteMap() {
+        return [
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x00, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67,
+            0x68, 0x69, 0x6a, 0x6b, 0x6c, 0x6d, 0x6e, 0x6f, 0x70, 0x71, 0x72, 0x73,
+            0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7a, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6a, 0x6b,
+            0x6c, 0x6d, 0x6e, 0x6f, 0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77,
+            0x78, 0x79, 0x7a, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0xa3, 0x20, 0x20, 0x20, 0x20,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0xa3,
+            0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xc6, 0xc7, 0xc8, 0xc9, 0xca, 0xcb,
+            0xcc, 0xcd, 0xce, 0xcf, 0xd0, 0xd1, 0xd2, 0xd3, 0xd4, 0xd5, 0xd6, 0xd7,
+            0xd8, 0xd9, 0xda, 0xdb, 0xdc, 0xdd, 0xde, 0xdf, 0xc0, 0xc1, 0xc2, 0xc3,
+            0xc4, 0xc5, 0xc6, 0xc7, 0xc8, 0xc9, 0xca, 0xcb, 0xcc, 0xcd, 0xce, 0xcf,
+            0xd0, 0xd1, 0xd2, 0xd3, 0xd4, 0xd5, 0xd6, 0xd7, 0xd8, 0xd9, 0xda, 0xdb,
+            0xdc, 0xdd, 0xde, 0xdf,
+        ];
+    }
+    ngrams() {
+        return [
+            0x20c4cf, 0x20c920, 0x20cbc1, 0x20cbcf, 0x20cec1, 0x20cec5, 0x20cfc2,
+            0x20d0cf, 0x20d0d2, 0x20d2c1, 0x20d3cf, 0x20d3d4, 0x20d4cf, 0x20d720,
+            0x20d7cf, 0x20dac1, 0x20dcd4, 0x20ded4, 0xc1cec9, 0xc1d4d8, 0xc5ccd8,
+            0xc5cec9, 0xc5d3d4, 0xc5d420, 0xc7cf20, 0xc920d0, 0xc9c520, 0xc9c920,
+            0xc9d120, 0xccc5ce, 0xccc920, 0xccd8ce, 0xcec120, 0xcec520, 0xcec9c5,
+            0xcec9d1, 0xcecf20, 0xcecfd7, 0xcf20d0, 0xcf20d3, 0xcf20d7, 0xcfc7cf,
+            0xcfca20, 0xcfccd8, 0xcfcd20, 0xcfd3d4, 0xcfd720, 0xcfd7c1, 0xd0cfcc,
+            0xd0d2c5, 0xd0d2c9, 0xd0d2cf, 0xd2c1d7, 0xd2c5c4, 0xd3d120, 0xd3d4c1,
+            0xd3d4c9, 0xd3d4d7, 0xd4c5cc, 0xd4cf20, 0xd4cfd2, 0xd4d820, 0xd9c820,
+            0xded4cf,
+        ];
+    }
+    name() {
+        return 'KOI8-R';
+    }
+    language() {
+        return 'ru';
+    }
+}
+exports.KOI8_R = KOI8_R;
+//# sourceMappingURL=sbcs.js.map
+
+/***/ }),
+
+/***/ 197:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.UTF_32LE = exports.UTF_32BE = exports.UTF_16LE = exports.UTF_16BE = void 0;
+const match_1 = __importDefault(__nccwpck_require__(6721));
+class UTF_16BE {
+    name() {
+        return 'UTF-16BE';
+    }
+    match(det) {
+        const input = det.rawInput;
+        if (input.length >= 2 &&
+            (input[0] & 0xff) == 0xfe &&
+            (input[1] & 0xff) == 0xff) {
+            return (0, match_1.default)(det, this, 100);
+        }
+        return null;
+    }
+}
+exports.UTF_16BE = UTF_16BE;
+class UTF_16LE {
+    name() {
+        return 'UTF-16LE';
+    }
+    match(det) {
+        const input = det.rawInput;
+        if (input.length >= 2 &&
+            (input[0] & 0xff) == 0xff &&
+            (input[1] & 0xff) == 0xfe) {
+            if (input.length >= 4 && input[2] == 0x00 && input[3] == 0x00) {
+                return null;
+            }
+            return (0, match_1.default)(det, this, 100);
+        }
+        return null;
+    }
+}
+exports.UTF_16LE = UTF_16LE;
+class UTF_32 {
+    name() {
+        return 'UTF-32';
+    }
+    getChar(_input, _index) {
+        return -1;
+    }
+    match(det) {
+        let numValid = 0, numInvalid = 0, hasBOM = false, confidence = 0;
+        const limit = (det.rawLen / 4) * 4;
+        const input = det.rawInput;
+        if (limit == 0) {
+            return null;
+        }
+        if (this.getChar(input, 0) == 0x0000feff) {
+            hasBOM = true;
+        }
+        for (let i = 0; i < limit; i += 4) {
+            const ch = this.getChar(input, i);
+            if (ch < 0 || ch >= 0x10ffff || (ch >= 0xd800 && ch <= 0xdfff)) {
+                numInvalid += 1;
+            }
+            else {
+                numValid += 1;
+            }
+        }
+        if (hasBOM && numInvalid == 0) {
+            confidence = 100;
+        }
+        else if (hasBOM && numValid > numInvalid * 10) {
+            confidence = 80;
+        }
+        else if (numValid > 3 && numInvalid == 0) {
+            confidence = 100;
+        }
+        else if (numValid > 0 && numInvalid == 0) {
+            confidence = 80;
+        }
+        else if (numValid > numInvalid * 10) {
+            confidence = 25;
+        }
+        return confidence == 0 ? null : (0, match_1.default)(det, this, confidence);
+    }
+}
+class UTF_32BE extends UTF_32 {
+    name() {
+        return 'UTF-32BE';
+    }
+    getChar(input, index) {
+        return (((input[index + 0] & 0xff) << 24) |
+            ((input[index + 1] & 0xff) << 16) |
+            ((input[index + 2] & 0xff) << 8) |
+            (input[index + 3] & 0xff));
+    }
+}
+exports.UTF_32BE = UTF_32BE;
+class UTF_32LE extends UTF_32 {
+    name() {
+        return 'UTF-32LE';
+    }
+    getChar(input, index) {
+        return (((input[index + 3] & 0xff) << 24) |
+            ((input[index + 2] & 0xff) << 16) |
+            ((input[index + 1] & 0xff) << 8) |
+            (input[index + 0] & 0xff));
+    }
+}
+exports.UTF_32LE = UTF_32LE;
+//# sourceMappingURL=unicode.js.map
+
+/***/ }),
+
+/***/ 6455:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const match_1 = __importDefault(__nccwpck_require__(6721));
+class Utf8 {
+    name() {
+        return 'UTF-8';
+    }
+    match(det) {
+        let hasBOM = false, numValid = 0, numInvalid = 0, trailBytes = 0, confidence;
+        const input = det.rawInput;
+        if (det.rawLen >= 3 &&
+            (input[0] & 0xff) == 0xef &&
+            (input[1] & 0xff) == 0xbb &&
+            (input[2] & 0xff) == 0xbf) {
+            hasBOM = true;
+        }
+        for (let i = 0; i < det.rawLen; i++) {
+            const b = input[i];
+            if ((b & 0x80) == 0)
+                continue;
+            if ((b & 0x0e0) == 0x0c0) {
+                trailBytes = 1;
+            }
+            else if ((b & 0x0f0) == 0x0e0) {
+                trailBytes = 2;
+            }
+            else if ((b & 0x0f8) == 0xf0) {
+                trailBytes = 3;
+            }
+            else {
+                numInvalid++;
+                if (numInvalid > 5)
+                    break;
+                trailBytes = 0;
+            }
+            for (;;) {
+                i++;
+                if (i >= det.rawLen)
+                    break;
+                if ((input[i] & 0xc0) != 0x080) {
+                    numInvalid++;
+                    break;
+                }
+                if (--trailBytes == 0) {
+                    numValid++;
+                    break;
+                }
+            }
+        }
+        confidence = 0;
+        if (hasBOM && numInvalid == 0)
+            confidence = 100;
+        else if (hasBOM && numValid > numInvalid * 10)
+            confidence = 80;
+        else if (numValid > 3 && numInvalid == 0)
+            confidence = 100;
+        else if (numValid > 0 && numInvalid == 0)
+            confidence = 80;
+        else if (numValid == 0 && numInvalid == 0)
+            confidence = 10;
+        else if (numValid > numInvalid * 10)
+            confidence = 25;
+        else
+            return null;
+        return (0, match_1.default)(det, this, confidence);
+    }
+}
+exports["default"] = Utf8;
+//# sourceMappingURL=utf8.js.map
+
+/***/ }),
+
+/***/ 1116:
+/***/ ((module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+let fsModule;
+exports["default"] = () => {
+    if ( true && typeof module.exports === 'object') {
+        fsModule = fsModule ? fsModule : __nccwpck_require__(7147);
+        return fsModule;
+    }
+    throw new Error('File system is not available');
+};
+//# sourceMappingURL=node.js.map
+
+/***/ }),
+
+/***/ 328:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.detectFileSync = exports.detectFile = exports.analyse = exports.detect = void 0;
+const node_1 = __importDefault(__nccwpck_require__(1116));
+const ascii_1 = __importDefault(__nccwpck_require__(487));
+const utf8_1 = __importDefault(__nccwpck_require__(6455));
+const unicode = __importStar(__nccwpck_require__(197));
+const mbcs = __importStar(__nccwpck_require__(1623));
+const sbcs = __importStar(__nccwpck_require__(9774));
+const iso2022 = __importStar(__nccwpck_require__(4715));
+const utils_1 = __nccwpck_require__(8660);
+const recognisers = [
+    new utf8_1.default(),
+    new unicode.UTF_16BE(),
+    new unicode.UTF_16LE(),
+    new unicode.UTF_32BE(),
+    new unicode.UTF_32LE(),
+    new mbcs.sjis(),
+    new mbcs.big5(),
+    new mbcs.euc_jp(),
+    new mbcs.euc_kr(),
+    new mbcs.gb_18030(),
+    new iso2022.ISO_2022_JP(),
+    new iso2022.ISO_2022_KR(),
+    new iso2022.ISO_2022_CN(),
+    new sbcs.ISO_8859_1(),
+    new sbcs.ISO_8859_2(),
+    new sbcs.ISO_8859_5(),
+    new sbcs.ISO_8859_6(),
+    new sbcs.ISO_8859_7(),
+    new sbcs.ISO_8859_8(),
+    new sbcs.ISO_8859_9(),
+    new sbcs.windows_1251(),
+    new sbcs.windows_1256(),
+    new sbcs.KOI8_R(),
+    new ascii_1.default(),
+];
+const detect = (buffer) => {
+    const matches = (0, exports.analyse)(buffer);
+    return matches.length > 0 ? matches[0].name : null;
+};
+exports.detect = detect;
+const analyse = (buffer) => {
+    if (!(0, utils_1.isByteArray)(buffer)) {
+        throw new Error('Input must be a byte array, e.g. Buffer or Uint8Array');
+    }
+    const byteStats = [];
+    for (let i = 0; i < 256; i++)
+        byteStats[i] = 0;
+    for (let i = buffer.length - 1; i >= 0; i--)
+        byteStats[buffer[i] & 0x00ff]++;
+    let c1Bytes = false;
+    for (let i = 0x80; i <= 0x9f; i += 1) {
+        if (byteStats[i] !== 0) {
+            c1Bytes = true;
+            break;
+        }
+    }
+    const context = {
+        byteStats,
+        c1Bytes,
+        rawInput: buffer,
+        rawLen: buffer.length,
+        inputBytes: buffer,
+        inputLen: buffer.length,
+    };
+    const matches = recognisers
+        .map((rec) => {
+        return rec.match(context);
+    })
+        .filter((match) => {
+        return !!match;
+    })
+        .sort((a, b) => {
+        return b.confidence - a.confidence;
+    });
+    return matches;
+};
+exports.analyse = analyse;
+const detectFile = (filepath, opts = {}) => new Promise((resolve, reject) => {
+    let fd;
+    const fs = (0, node_1.default)();
+    const handler = (err, buffer) => {
+        if (fd) {
+            fs.closeSync(fd);
+        }
+        if (err) {
+            reject(err);
+        }
+        else {
+            resolve((0, exports.detect)(buffer));
+        }
+    };
+    if (opts && opts.sampleSize) {
+        fd = fs.openSync(filepath, 'r');
+        const sample = Buffer.allocUnsafe(opts.sampleSize);
+        fs.read(fd, sample, 0, opts.sampleSize, opts.offset, (err) => {
+            handler(err, sample);
+        });
+        return;
+    }
+    fs.readFile(filepath, handler);
+});
+exports.detectFile = detectFile;
+const detectFileSync = (filepath, opts = {}) => {
+    const fs = (0, node_1.default)();
+    if (opts && opts.sampleSize) {
+        const fd = fs.openSync(filepath, 'r');
+        const sample = Buffer.allocUnsafe(opts.sampleSize);
+        fs.readSync(fd, sample, 0, opts.sampleSize, opts.offset);
+        fs.closeSync(fd);
+        return (0, exports.detect)(sample);
+    }
+    return (0, exports.detect)(fs.readFileSync(filepath));
+};
+exports.detectFileSync = detectFileSync;
+exports["default"] = {
+    analyse: exports.analyse,
+    detect: exports.detect,
+    detectFileSync: exports.detectFileSync,
+    detectFile: exports.detectFile,
+};
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ 6721:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports["default"] = (ctx, rec, confidence) => ({
+    confidence,
+    name: rec.name(ctx),
+    lang: rec.language ? rec.language() : undefined,
+});
+//# sourceMappingURL=match.js.map
+
+/***/ }),
+
+/***/ 8660:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.isByteArray = void 0;
+const isByteArray = (input) => {
+    if (input == null || typeof input != 'object')
+        return false;
+    return isFinite(input.length) && input.length >= 0;
+};
+exports.isByteArray = isByteArray;
+//# sourceMappingURL=utils.js.map
+
+/***/ }),
+
+/***/ 6891:
+/***/ ((module) => {
+
+module.exports = function (xs, fn) {
+    var res = [];
+    for (var i = 0; i < xs.length; i++) {
+        var x = fn(xs[i], i);
+        if (isArray(x)) res.push.apply(res, x);
+        else res.push(x);
+    }
+    return res;
+};
+
+var isArray = Array.isArray || function (xs) {
+    return Object.prototype.toString.call(xs) === '[object Array]';
+};
+
+
+/***/ }),
+
+/***/ 3973:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+module.exports = minimatch
+minimatch.Minimatch = Minimatch
+
+var path = (function () { try { return __nccwpck_require__(1017) } catch (e) {}}()) || {
+  sep: '/'
+}
+minimatch.sep = path.sep
+
+var GLOBSTAR = minimatch.GLOBSTAR = Minimatch.GLOBSTAR = {}
+var expand = __nccwpck_require__(3717)
+
+var plTypes = {
+  '!': { open: '(?:(?!(?:', close: '))[^/]*?)'},
+  '?': { open: '(?:', close: ')?' },
+  '+': { open: '(?:', close: ')+' },
+  '*': { open: '(?:', close: ')*' },
+  '@': { open: '(?:', close: ')' }
+}
+
+// any single thing other than /
+// don't need to escape / when using new RegExp()
+var qmark = '[^/]'
+
+// * => any number of characters
+var star = qmark + '*?'
+
+// ** when dots are allowed.  Anything goes, except .. and .
+// not (^ or / followed by one or two dots followed by $ or /),
+// followed by anything, any number of times.
+var twoStarDot = '(?:(?!(?:\\\/|^)(?:\\.{1,2})($|\\\/)).)*?'
+
+// not a ^ or / followed by a dot,
+// followed by anything, any number of times.
+var twoStarNoDot = '(?:(?!(?:\\\/|^)\\.).)*?'
+
+// characters that need to be escaped in RegExp.
+var reSpecials = charSet('().*{}+?[]^$\\!')
+
+// "abc" -> { a:true, b:true, c:true }
+function charSet (s) {
+  return s.split('').reduce(function (set, c) {
+    set[c] = true
+    return set
+  }, {})
+}
+
+// normalizes slashes.
+var slashSplit = /\/+/
+
+minimatch.filter = filter
+function filter (pattern, options) {
+  options = options || {}
+  return function (p, i, list) {
+    return minimatch(p, pattern, options)
+  }
+}
+
+function ext (a, b) {
+  b = b || {}
+  var t = {}
+  Object.keys(a).forEach(function (k) {
+    t[k] = a[k]
+  })
+  Object.keys(b).forEach(function (k) {
+    t[k] = b[k]
+  })
+  return t
+}
+
+minimatch.defaults = function (def) {
+  if (!def || typeof def !== 'object' || !Object.keys(def).length) {
+    return minimatch
+  }
+
+  var orig = minimatch
+
+  var m = function minimatch (p, pattern, options) {
+    return orig(p, pattern, ext(def, options))
+  }
+
+  m.Minimatch = function Minimatch (pattern, options) {
+    return new orig.Minimatch(pattern, ext(def, options))
+  }
+  m.Minimatch.defaults = function defaults (options) {
+    return orig.defaults(ext(def, options)).Minimatch
+  }
+
+  m.filter = function filter (pattern, options) {
+    return orig.filter(pattern, ext(def, options))
+  }
+
+  m.defaults = function defaults (options) {
+    return orig.defaults(ext(def, options))
+  }
+
+  m.makeRe = function makeRe (pattern, options) {
+    return orig.makeRe(pattern, ext(def, options))
+  }
+
+  m.braceExpand = function braceExpand (pattern, options) {
+    return orig.braceExpand(pattern, ext(def, options))
+  }
+
+  m.match = function (list, pattern, options) {
+    return orig.match(list, pattern, ext(def, options))
+  }
+
+  return m
+}
+
+Minimatch.defaults = function (def) {
+  return minimatch.defaults(def).Minimatch
+}
+
+function minimatch (p, pattern, options) {
+  assertValidPattern(pattern)
+
+  if (!options) options = {}
+
+  // shortcut: comments match nothing.
+  if (!options.nocomment && pattern.charAt(0) === '#') {
+    return false
+  }
+
+  return new Minimatch(pattern, options).match(p)
+}
+
+function Minimatch (pattern, options) {
+  if (!(this instanceof Minimatch)) {
+    return new Minimatch(pattern, options)
+  }
+
+  assertValidPattern(pattern)
+
+  if (!options) options = {}
+
+  pattern = pattern.trim()
+
+  // windows support: need to use /, not \
+  if (!options.allowWindowsEscape && path.sep !== '/') {
+    pattern = pattern.split(path.sep).join('/')
+  }
+
+  this.options = options
+  this.set = []
+  this.pattern = pattern
+  this.regexp = null
+  this.negate = false
+  this.comment = false
+  this.empty = false
+  this.partial = !!options.partial
+
+  // make the set of regexps etc.
+  this.make()
+}
+
+Minimatch.prototype.debug = function () {}
+
+Minimatch.prototype.make = make
+function make () {
+  var pattern = this.pattern
+  var options = this.options
+
+  // empty patterns and comments match nothing.
+  if (!options.nocomment && pattern.charAt(0) === '#') {
+    this.comment = true
+    return
+  }
+  if (!pattern) {
+    this.empty = true
+    return
+  }
+
+  // step 1: figure out negation, etc.
+  this.parseNegate()
+
+  // step 2: expand braces
+  var set = this.globSet = this.braceExpand()
+
+  if (options.debug) this.debug = function debug() { console.error.apply(console, arguments) }
+
+  this.debug(this.pattern, set)
+
+  // step 3: now we have a set, so turn each one into a series of path-portion
+  // matching patterns.
+  // These will be regexps, except in the case of "**", which is
+  // set to the GLOBSTAR object for globstar behavior,
+  // and will not contain any / characters
+  set = this.globParts = set.map(function (s) {
+    return s.split(slashSplit)
+  })
+
+  this.debug(this.pattern, set)
+
+  // glob --> regexps
+  set = set.map(function (s, si, set) {
+    return s.map(this.parse, this)
+  }, this)
+
+  this.debug(this.pattern, set)
+
+  // filter out everything that didn't compile properly.
+  set = set.filter(function (s) {
+    return s.indexOf(false) === -1
+  })
+
+  this.debug(this.pattern, set)
+
+  this.set = set
+}
+
+Minimatch.prototype.parseNegate = parseNegate
+function parseNegate () {
+  var pattern = this.pattern
+  var negate = false
+  var options = this.options
+  var negateOffset = 0
+
+  if (options.nonegate) return
+
+  for (var i = 0, l = pattern.length
+    ; i < l && pattern.charAt(i) === '!'
+    ; i++) {
+    negate = !negate
+    negateOffset++
+  }
+
+  if (negateOffset) this.pattern = pattern.substr(negateOffset)
+  this.negate = negate
+}
+
+// Brace expansion:
+// a{b,c}d -> abd acd
+// a{b,}c -> abc ac
+// a{0..3}d -> a0d a1d a2d a3d
+// a{b,c{d,e}f}g -> abg acdfg acefg
+// a{b,c}d{e,f}g -> abdeg acdeg abdeg abdfg
+//
+// Invalid sets are not expanded.
+// a{2..}b -> a{2..}b
+// a{b}c -> a{b}c
+minimatch.braceExpand = function (pattern, options) {
+  return braceExpand(pattern, options)
+}
+
+Minimatch.prototype.braceExpand = braceExpand
+
+function braceExpand (pattern, options) {
+  if (!options) {
+    if (this instanceof Minimatch) {
+      options = this.options
+    } else {
+      options = {}
+    }
+  }
+
+  pattern = typeof pattern === 'undefined'
+    ? this.pattern : pattern
+
+  assertValidPattern(pattern)
+
+  // Thanks to Yeting Li <https://github.com/yetingli> for
+  // improving this regexp to avoid a ReDOS vulnerability.
+  if (options.nobrace || !/\{(?:(?!\{).)*\}/.test(pattern)) {
+    // shortcut. no need to expand.
+    return [pattern]
+  }
+
+  return expand(pattern)
+}
+
+var MAX_PATTERN_LENGTH = 1024 * 64
+var assertValidPattern = function (pattern) {
+  if (typeof pattern !== 'string') {
+    throw new TypeError('invalid pattern')
+  }
+
+  if (pattern.length > MAX_PATTERN_LENGTH) {
+    throw new TypeError('pattern is too long')
+  }
+}
+
+// parse a component of the expanded set.
+// At this point, no pattern may contain "/" in it
+// so we're going to return a 2d array, where each entry is the full
+// pattern, split on '/', and then turned into a regular expression.
+// A regexp is made at the end which joins each array with an
+// escaped /, and another full one which joins each regexp with |.
+//
+// Following the lead of Bash 4.1, note that "**" only has special meaning
+// when it is the *only* thing in a path portion.  Otherwise, any series
+// of * is equivalent to a single *.  Globstar behavior is enabled by
+// default, and can be disabled by setting options.noglobstar.
+Minimatch.prototype.parse = parse
+var SUBPARSE = {}
+function parse (pattern, isSub) {
+  assertValidPattern(pattern)
+
+  var options = this.options
+
+  // shortcuts
+  if (pattern === '**') {
+    if (!options.noglobstar)
+      return GLOBSTAR
+    else
+      pattern = '*'
+  }
+  if (pattern === '') return ''
+
+  var re = ''
+  var hasMagic = !!options.nocase
+  var escaping = false
+  // ? => one single character
+  var patternListStack = []
+  var negativeLists = []
+  var stateChar
+  var inClass = false
+  var reClassStart = -1
+  var classStart = -1
+  // . and .. never match anything that doesn't start with .,
+  // even when options.dot is set.
+  var patternStart = pattern.charAt(0) === '.' ? '' // anything
+  // not (start or / followed by . or .. followed by / or end)
+  : options.dot ? '(?!(?:^|\\\/)\\.{1,2}(?:$|\\\/))'
+  : '(?!\\.)'
+  var self = this
+
+  function clearStateChar () {
+    if (stateChar) {
+      // we had some state-tracking character
+      // that wasn't consumed by this pass.
+      switch (stateChar) {
+        case '*':
+          re += star
+          hasMagic = true
+        break
+        case '?':
+          re += qmark
+          hasMagic = true
+        break
+        default:
+          re += '\\' + stateChar
+        break
+      }
+      self.debug('clearStateChar %j %j', stateChar, re)
+      stateChar = false
+    }
+  }
+
+  for (var i = 0, len = pattern.length, c
+    ; (i < len) && (c = pattern.charAt(i))
+    ; i++) {
+    this.debug('%s\t%s %s %j', pattern, i, re, c)
+
+    // skip over any that are escaped.
+    if (escaping && reSpecials[c]) {
+      re += '\\' + c
+      escaping = false
+      continue
+    }
+
+    switch (c) {
+      /* istanbul ignore next */
+      case '/': {
+        // completely not allowed, even escaped.
+        // Should already be path-split by now.
+        return false
+      }
+
+      case '\\':
+        clearStateChar()
+        escaping = true
+      continue
+
+      // the various stateChar values
+      // for the "extglob" stuff.
+      case '?':
+      case '*':
+      case '+':
+      case '@':
+      case '!':
+        this.debug('%s\t%s %s %j <-- stateChar', pattern, i, re, c)
+
+        // all of those are literals inside a class, except that
+        // the glob [!a] means [^a] in regexp
+        if (inClass) {
+          this.debug('  in class')
+          if (c === '!' && i === classStart + 1) c = '^'
+          re += c
+          continue
+        }
+
+        // if we already have a stateChar, then it means
+        // that there was something like ** or +? in there.
+        // Handle the stateChar, then proceed with this one.
+        self.debug('call clearStateChar %j', stateChar)
+        clearStateChar()
+        stateChar = c
+        // if extglob is disabled, then +(asdf|foo) isn't a thing.
+        // just clear the statechar *now*, rather than even diving into
+        // the patternList stuff.
+        if (options.noext) clearStateChar()
+      continue
+
+      case '(':
+        if (inClass) {
+          re += '('
+          continue
+        }
+
+        if (!stateChar) {
+          re += '\\('
+          continue
+        }
+
+        patternListStack.push({
+          type: stateChar,
+          start: i - 1,
+          reStart: re.length,
+          open: plTypes[stateChar].open,
+          close: plTypes[stateChar].close
+        })
+        // negation is (?:(?!js)[^/]*)
+        re += stateChar === '!' ? '(?:(?!(?:' : '(?:'
+        this.debug('plType %j %j', stateChar, re)
+        stateChar = false
+      continue
+
+      case ')':
+        if (inClass || !patternListStack.length) {
+          re += '\\)'
+          continue
+        }
+
+        clearStateChar()
+        hasMagic = true
+        var pl = patternListStack.pop()
+        // negation is (?:(?!js)[^/]*)
+        // The others are (?:<pattern>)<type>
+        re += pl.close
+        if (pl.type === '!') {
+          negativeLists.push(pl)
+        }
+        pl.reEnd = re.length
+      continue
+
+      case '|':
+        if (inClass || !patternListStack.length || escaping) {
+          re += '\\|'
+          escaping = false
+          continue
+        }
+
+        clearStateChar()
+        re += '|'
+      continue
+
+      // these are mostly the same in regexp and glob
+      case '[':
+        // swallow any state-tracking char before the [
+        clearStateChar()
+
+        if (inClass) {
+          re += '\\' + c
+          continue
+        }
+
+        inClass = true
+        classStart = i
+        reClassStart = re.length
+        re += c
+      continue
+
+      case ']':
+        //  a right bracket shall lose its special
+        //  meaning and represent itself in
+        //  a bracket expression if it occurs
+        //  first in the list.  -- POSIX.2 2.8.3.2
+        if (i === classStart + 1 || !inClass) {
+          re += '\\' + c
+          escaping = false
+          continue
+        }
+
+        // handle the case where we left a class open.
+        // "[z-a]" is valid, equivalent to "\[z-a\]"
+        // split where the last [ was, make sure we don't have
+        // an invalid re. if so, re-walk the contents of the
+        // would-be class to re-translate any characters that
+        // were passed through as-is
+        // TODO: It would probably be faster to determine this
+        // without a try/catch and a new RegExp, but it's tricky
+        // to do safely.  For now, this is safe and works.
+        var cs = pattern.substring(classStart + 1, i)
+        try {
+          RegExp('[' + cs + ']')
+        } catch (er) {
+          // not a valid class!
+          var sp = this.parse(cs, SUBPARSE)
+          re = re.substr(0, reClassStart) + '\\[' + sp[0] + '\\]'
+          hasMagic = hasMagic || sp[1]
+          inClass = false
+          continue
+        }
+
+        // finish up the class.
+        hasMagic = true
+        inClass = false
+        re += c
+      continue
+
+      default:
+        // swallow any state char that wasn't consumed
+        clearStateChar()
+
+        if (escaping) {
+          // no need
+          escaping = false
+        } else if (reSpecials[c]
+          && !(c === '^' && inClass)) {
+          re += '\\'
+        }
+
+        re += c
+
+    } // switch
+  } // for
+
+  // handle the case where we left a class open.
+  // "[abc" is valid, equivalent to "\[abc"
+  if (inClass) {
+    // split where the last [ was, and escape it
+    // this is a huge pita.  We now have to re-walk
+    // the contents of the would-be class to re-translate
+    // any characters that were passed through as-is
+    cs = pattern.substr(classStart + 1)
+    sp = this.parse(cs, SUBPARSE)
+    re = re.substr(0, reClassStart) + '\\[' + sp[0]
+    hasMagic = hasMagic || sp[1]
+  }
+
+  // handle the case where we had a +( thing at the *end*
+  // of the pattern.
+  // each pattern list stack adds 3 chars, and we need to go through
+  // and escape any | chars that were passed through as-is for the regexp.
+  // Go through and escape them, taking care not to double-escape any
+  // | chars that were already escaped.
+  for (pl = patternListStack.pop(); pl; pl = patternListStack.pop()) {
+    var tail = re.slice(pl.reStart + pl.open.length)
+    this.debug('setting tail', re, pl)
+    // maybe some even number of \, then maybe 1 \, followed by a |
+    tail = tail.replace(/((?:\\{2}){0,64})(\\?)\|/g, function (_, $1, $2) {
+      if (!$2) {
+        // the | isn't already escaped, so escape it.
+        $2 = '\\'
+      }
+
+      // need to escape all those slashes *again*, without escaping the
+      // one that we need for escaping the | character.  As it works out,
+      // escaping an even number of slashes can be done by simply repeating
+      // it exactly after itself.  That's why this trick works.
+      //
+      // I am sorry that you have to see this.
+      return $1 + $1 + $2 + '|'
+    })
+
+    this.debug('tail=%j\n   %s', tail, tail, pl, re)
+    var t = pl.type === '*' ? star
+      : pl.type === '?' ? qmark
+      : '\\' + pl.type
+
+    hasMagic = true
+    re = re.slice(0, pl.reStart) + t + '\\(' + tail
+  }
+
+  // handle trailing things that only matter at the very end.
+  clearStateChar()
+  if (escaping) {
+    // trailing \\
+    re += '\\\\'
+  }
+
+  // only need to apply the nodot start if the re starts with
+  // something that could conceivably capture a dot
+  var addPatternStart = false
+  switch (re.charAt(0)) {
+    case '[': case '.': case '(': addPatternStart = true
+  }
+
+  // Hack to work around lack of negative lookbehind in JS
+  // A pattern like: *.!(x).!(y|z) needs to ensure that a name
+  // like 'a.xyz.yz' doesn't match.  So, the first negative
+  // lookahead, has to look ALL the way ahead, to the end of
+  // the pattern.
+  for (var n = negativeLists.length - 1; n > -1; n--) {
+    var nl = negativeLists[n]
+
+    var nlBefore = re.slice(0, nl.reStart)
+    var nlFirst = re.slice(nl.reStart, nl.reEnd - 8)
+    var nlLast = re.slice(nl.reEnd - 8, nl.reEnd)
+    var nlAfter = re.slice(nl.reEnd)
+
+    nlLast += nlAfter
+
+    // Handle nested stuff like *(*.js|!(*.json)), where open parens
+    // mean that we should *not* include the ) in the bit that is considered
+    // "after" the negated section.
+    var openParensBefore = nlBefore.split('(').length - 1
+    var cleanAfter = nlAfter
+    for (i = 0; i < openParensBefore; i++) {
+      cleanAfter = cleanAfter.replace(/\)[+*?]?/, '')
+    }
+    nlAfter = cleanAfter
+
+    var dollar = ''
+    if (nlAfter === '' && isSub !== SUBPARSE) {
+      dollar = '$'
+    }
+    var newRe = nlBefore + nlFirst + nlAfter + dollar + nlLast
+    re = newRe
+  }
+
+  // if the re is not "" at this point, then we need to make sure
+  // it doesn't match against an empty path part.
+  // Otherwise a/* will match a/, which it should not.
+  if (re !== '' && hasMagic) {
+    re = '(?=.)' + re
+  }
+
+  if (addPatternStart) {
+    re = patternStart + re
+  }
+
+  // parsing just a piece of a larger pattern.
+  if (isSub === SUBPARSE) {
+    return [re, hasMagic]
+  }
+
+  // skip the regexp for non-magical patterns
+  // unescape anything in it, though, so that it'll be
+  // an exact match against a file etc.
+  if (!hasMagic) {
+    return globUnescape(pattern)
+  }
+
+  var flags = options.nocase ? 'i' : ''
+  try {
+    var regExp = new RegExp('^' + re + '$', flags)
+  } catch (er) /* istanbul ignore next - should be impossible */ {
+    // If it was an invalid regular expression, then it can't match
+    // anything.  This trick looks for a character after the end of
+    // the string, which is of course impossible, except in multi-line
+    // mode, but it's not a /m regex.
+    return new RegExp('$.')
+  }
+
+  regExp._glob = pattern
+  regExp._src = re
+
+  return regExp
+}
+
+minimatch.makeRe = function (pattern, options) {
+  return new Minimatch(pattern, options || {}).makeRe()
+}
+
+Minimatch.prototype.makeRe = makeRe
+function makeRe () {
+  if (this.regexp || this.regexp === false) return this.regexp
+
+  // at this point, this.set is a 2d array of partial
+  // pattern strings, or "**".
+  //
+  // It's better to use .match().  This function shouldn't
+  // be used, really, but it's pretty convenient sometimes,
+  // when you just want to work with a regex.
+  var set = this.set
+
+  if (!set.length) {
+    this.regexp = false
+    return this.regexp
+  }
+  var options = this.options
+
+  var twoStar = options.noglobstar ? star
+    : options.dot ? twoStarDot
+    : twoStarNoDot
+  var flags = options.nocase ? 'i' : ''
+
+  var re = set.map(function (pattern) {
+    return pattern.map(function (p) {
+      return (p === GLOBSTAR) ? twoStar
+      : (typeof p === 'string') ? regExpEscape(p)
+      : p._src
+    }).join('\\\/')
+  }).join('|')
+
+  // must match entire pattern
+  // ending in a * or ** will make it less strict.
+  re = '^(?:' + re + ')$'
+
+  // can match anything, as long as it's not this.
+  if (this.negate) re = '^(?!' + re + ').*$'
+
+  try {
+    this.regexp = new RegExp(re, flags)
+  } catch (ex) /* istanbul ignore next - should be impossible */ {
+    this.regexp = false
+  }
+  return this.regexp
+}
+
+minimatch.match = function (list, pattern, options) {
+  options = options || {}
+  var mm = new Minimatch(pattern, options)
+  list = list.filter(function (f) {
+    return mm.match(f)
+  })
+  if (mm.options.nonull && !list.length) {
+    list.push(pattern)
+  }
+  return list
+}
+
+Minimatch.prototype.match = function match (f, partial) {
+  if (typeof partial === 'undefined') partial = this.partial
+  this.debug('match', f, this.pattern)
+  // short-circuit in the case of busted things.
+  // comments, etc.
+  if (this.comment) return false
+  if (this.empty) return f === ''
+
+  if (f === '/' && partial) return true
+
+  var options = this.options
+
+  // windows: need to use /, not \
+  if (path.sep !== '/') {
+    f = f.split(path.sep).join('/')
+  }
+
+  // treat the test path as a set of pathparts.
+  f = f.split(slashSplit)
+  this.debug(this.pattern, 'split', f)
+
+  // just ONE of the pattern sets in this.set needs to match
+  // in order for it to be valid.  If negating, then just one
+  // match means that we have failed.
+  // Either way, return on the first hit.
+
+  var set = this.set
+  this.debug(this.pattern, 'set', set)
+
+  // Find the basename of the path by looking for the last non-empty segment
+  var filename
+  var i
+  for (i = f.length - 1; i >= 0; i--) {
+    filename = f[i]
+    if (filename) break
+  }
+
+  for (i = 0; i < set.length; i++) {
+    var pattern = set[i]
+    var file = f
+    if (options.matchBase && pattern.length === 1) {
+      file = [filename]
+    }
+    var hit = this.matchOne(file, pattern, partial)
+    if (hit) {
+      if (options.flipNegate) return true
+      return !this.negate
+    }
+  }
+
+  // didn't get any hits.  this is success if it's a negative
+  // pattern, failure otherwise.
+  if (options.flipNegate) return false
+  return this.negate
+}
+
+// set partial to true to test if, for example,
+// "/a/b" matches the start of "/*/b/*/d"
+// Partial means, if you run out of file before you run
+// out of pattern, then that's fine, as long as all
+// the parts match.
+Minimatch.prototype.matchOne = function (file, pattern, partial) {
+  var options = this.options
+
+  this.debug('matchOne',
+    { 'this': this, file: file, pattern: pattern })
+
+  this.debug('matchOne', file.length, pattern.length)
+
+  for (var fi = 0,
+      pi = 0,
+      fl = file.length,
+      pl = pattern.length
+      ; (fi < fl) && (pi < pl)
+      ; fi++, pi++) {
+    this.debug('matchOne loop')
+    var p = pattern[pi]
+    var f = file[fi]
+
+    this.debug(pattern, p, f)
+
+    // should be impossible.
+    // some invalid regexp stuff in the set.
+    /* istanbul ignore if */
+    if (p === false) return false
+
+    if (p === GLOBSTAR) {
+      this.debug('GLOBSTAR', [pattern, p, f])
+
+      // "**"
+      // a/**/b/**/c would match the following:
+      // a/b/x/y/z/c
+      // a/x/y/z/b/c
+      // a/b/x/b/x/c
+      // a/b/c
+      // To do this, take the rest of the pattern after
+      // the **, and see if it would match the file remainder.
+      // If so, return success.
+      // If not, the ** "swallows" a segment, and try again.
+      // This is recursively awful.
+      //
+      // a/**/b/**/c matching a/b/x/y/z/c
+      // - a matches a
+      // - doublestar
+      //   - matchOne(b/x/y/z/c, b/**/c)
+      //     - b matches b
+      //     - doublestar
+      //       - matchOne(x/y/z/c, c) -> no
+      //       - matchOne(y/z/c, c) -> no
+      //       - matchOne(z/c, c) -> no
+      //       - matchOne(c, c) yes, hit
+      var fr = fi
+      var pr = pi + 1
+      if (pr === pl) {
+        this.debug('** at the end')
+        // a ** at the end will just swallow the rest.
+        // We have found a match.
+        // however, it will not swallow /.x, unless
+        // options.dot is set.
+        // . and .. are *never* matched by **, for explosively
+        // exponential reasons.
+        for (; fi < fl; fi++) {
+          if (file[fi] === '.' || file[fi] === '..' ||
+            (!options.dot && file[fi].charAt(0) === '.')) return false
+        }
+        return true
+      }
+
+      // ok, let's see if we can swallow whatever we can.
+      while (fr < fl) {
+        var swallowee = file[fr]
+
+        this.debug('\nglobstar while', file, fr, pattern, pr, swallowee)
+
+        // XXX remove this slice.  Just pass the start index.
+        if (this.matchOne(file.slice(fr), pattern.slice(pr), partial)) {
+          this.debug('globstar found match!', fr, fl, swallowee)
+          // found a match.
+          return true
+        } else {
+          // can't swallow "." or ".." ever.
+          // can only swallow ".foo" when explicitly asked.
+          if (swallowee === '.' || swallowee === '..' ||
+            (!options.dot && swallowee.charAt(0) === '.')) {
+            this.debug('dot detected!', file, fr, pattern, pr)
+            break
+          }
+
+          // ** swallows a segment, and continue.
+          this.debug('globstar swallow a segment, and continue')
+          fr++
+        }
+      }
+
+      // no match was found.
+      // However, in partial mode, we can't say this is necessarily over.
+      // If there's more *pattern* left, then
+      /* istanbul ignore if */
+      if (partial) {
+        // ran out of file
+        this.debug('\n>>> no match, partial?', file, fr, pattern, pr)
+        if (fr === fl) return true
+      }
+      return false
+    }
+
+    // something other than **
+    // non-magic patterns just have to match exactly
+    // patterns with magic have been turned into regexps.
+    var hit
+    if (typeof p === 'string') {
+      hit = f === p
+      this.debug('string match', p, f, hit)
+    } else {
+      hit = f.match(p)
+      this.debug('pattern match', p, f, hit)
+    }
+
+    if (!hit) return false
+  }
+
+  // Note: ending in / means that we'll get a final ""
+  // at the end of the pattern.  This can only match a
+  // corresponding "" at the end of the file.
+  // If the file ends in /, then it can only match a
+  // a pattern that ends in /, unless the pattern just
+  // doesn't have any more for it. But, a/b/ should *not*
+  // match "a/b/*", even though "" matches against the
+  // [^/]*? pattern, except in partial mode, where it might
+  // simply not be reached yet.
+  // However, a/b/ should still satisfy a/*
+
+  // now either we fell off the end of the pattern, or we're done.
+  if (fi === fl && pi === pl) {
+    // ran out of pattern and filename at the same time.
+    // an exact hit!
+    return true
+  } else if (fi === fl) {
+    // ran out of file, but still had pattern left.
+    // this is ok if we're doing the match as part of
+    // a glob fs traversal.
+    return partial
+  } else /* istanbul ignore else */ if (pi === pl) {
+    // ran out of pattern, still have file left.
+    // this is only acceptable if we're on the very last
+    // empty segment of a file with a trailing slash.
+    // a/* should match a/b/
+    return (fi === fl - 1) && (file[fi] === '')
+  }
+
+  // should be unreachable.
+  /* istanbul ignore next */
+  throw new Error('wtf?')
+}
+
+// replace stuff like \* with *
+function globUnescape (s) {
+  return s.replace(/\\(.)/g, '$1')
+}
+
+function regExpEscape (s) {
+  return s.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
+}
+
 
 /***/ }),
 
@@ -24947,10 +29068,20 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.run = void 0;
 const core = __importStar(__nccwpck_require__(2186));
+const parse_action_input_1 = __nccwpck_require__(6632);
+const replace_tokens_1 = __nccwpck_require__(4064);
 const run = async () => {
     try {
-        const message = core.getInput('message');
-        core.debug(message);
+        const input = await (0, parse_action_input_1.parseActionInput)();
+        core.debug('The input has been parsed');
+        if (Object.keys(input.variables).length === 0) {
+            core.warning('No replacement data was found. ' +
+                'Make sure that you have defined at least one of the following input parameters: ' +
+                'variables, variables-json, variables-secret-json');
+            return;
+        }
+        await (0, replace_tokens_1.replaceTokens)(input);
+        core.debug('All tokens have been replaced');
     }
     catch (error) {
         if (error instanceof Error)
@@ -24958,6 +29089,174 @@ const run = async () => {
     }
 };
 exports.run = run;
+
+
+/***/ }),
+
+/***/ 4560:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.detectEncoding = void 0;
+const chardet_1 = __nccwpck_require__(328);
+const defaultEncoding = 'ascii';
+const detectEncoding = async (filePath, fileEncoding) => {
+    if (fileEncoding !== 'auto')
+        return fileEncoding;
+    switch (await (0, chardet_1.detectFile)(filePath)) {
+        case 'UTF-8':
+            return 'utf-8';
+        case 'UTF-16 LE':
+            return 'utf-16le';
+        default:
+            return defaultEncoding;
+    }
+};
+exports.detectEncoding = detectEncoding;
+
+
+/***/ }),
+
+/***/ 6632:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.parseActionInput = void 0;
+const core = __importStar(__nccwpck_require__(2186));
+const glob = __importStar(__nccwpck_require__(8090));
+const parseActionInput = async () => ({
+    filePaths: await getFilePaths(),
+    fileEncoding: core.getInput("encoding" /* ActionInputNames.Encoding */, { required: true }),
+    tokenPrefix: core.getInput("token-prefix" /* ActionInputNames.TokenPrefix */, { required: true }),
+    tokenSuffix: core.getInput("token-suffix" /* ActionInputNames.TokenSuffix */, { required: true }),
+    variables: {
+        ...getJsonVariables("variables-json" /* ActionInputNames.VariablesJson */),
+        ...getJsonVariables("variables-secret-json" /* ActionInputNames.VariablesSecretJson */),
+        ...getYamlVariables("variables" /* ActionInputNames.Variables */)
+    }
+});
+exports.parseActionInput = parseActionInput;
+const getFilePaths = async () => {
+    const patterns = core.getInput("target" /* ActionInputNames.Target */, { required: true });
+    const followSymbolicLinks = core.getBooleanInput("follow-symbolic-links" /* ActionInputNames.FollowSymbolicLinks */, { required: true });
+    const globber = await glob.create(patterns, { followSymbolicLinks, matchDirectories: false });
+    const result = await globber.glob();
+    return result.length > 0 ? result : throwInputError("target" /* ActionInputNames.Target */, 'no files were found');
+};
+const getYamlVariables = (inputName) => {
+    const variables = core.getMultilineInput(inputName);
+    if (!variables || variables.length === 0)
+        return;
+    const empty = ['""', "''"];
+    const emptyEscaped = ['\\"\\"', "\\'\\'"];
+    const result = {};
+    for (let i = 0; i < variables.length; i++) {
+        const current = variables[i];
+        if (!current.startsWith('-') || !current.includes(':')) {
+            core.warning(`Variable '${current}' is not valid and will be skipped. Example: - VARIABLE${i}: YOUR_VALUE`);
+            continue;
+        }
+        const [rawKey, rawValue] = variables[i].slice(1).split(/:(.*)/s);
+        const key = rawKey?.trim();
+        if (!key) {
+            core.warning(`Invalid token key in variable '${current}'`);
+            continue;
+        }
+        const value = rawValue?.trim();
+        result[key] =
+            !value || empty.includes(value) ? '' : emptyEscaped.includes(value) ? value.replaceAll('\\', '') : value;
+    }
+    return result;
+};
+const getJsonVariables = (inputName) => {
+    const variables = core.getInput(inputName);
+    if (!variables || ['', '""', "''", 'null'].includes(variables))
+        return;
+    try {
+        const result = JSON.parse(variables);
+        if (!result || result.constructor?.name !== 'Object') {
+            throwInputError(inputName, 'JSON is valid, but value is not an object', 'parsing');
+        }
+        for (const key in result) {
+            if (typeof result[key] === 'string')
+                continue;
+            result[key] = String(result[key]);
+        }
+        return result;
+    }
+    catch (error) {
+        if (error instanceof Error && error.cause)
+            throw error;
+        throwInputError(inputName, 'JSON is invalid');
+    }
+};
+const throwInputError = (inputName, message, cause) => {
+    throw new Error(`Input '${inputName}': ${message}`, { cause });
+};
+
+
+/***/ }),
+
+/***/ 4064:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.replaceTokens = void 0;
+const fs_1 = __nccwpck_require__(7147);
+const detect_encoding_1 = __nccwpck_require__(4560);
+const replaceTokens = async (input) => {
+    const tokens = getTokens(input);
+    await Promise.all(input.filePaths.map(async (filePath) => await updateFile(filePath, input.fileEncoding, tokens)));
+};
+exports.replaceTokens = replaceTokens;
+const getTokens = (input) => {
+    const prefix = escapeRegexString(input.tokenPrefix);
+    const suffix = escapeRegexString(input.tokenSuffix);
+    return Object.entries(input.variables).map(([key, value]) => ({
+        pattern: new RegExp(`${prefix}\\s*${escapeRegexString(key)}\\s*${suffix}`, 'gi'),
+        value
+    }));
+};
+const escapeRegexString = (value) => {
+    return value.replace(/[/\-\\^$*+?.()|[\]{}]/g, '\\$&');
+};
+const updateFile = async (filePath, fileEncoding, tokens) => {
+    const encoding = await (0, detect_encoding_1.detectEncoding)(filePath, fileEncoding);
+    let data = await fs_1.promises.readFile(filePath, { encoding });
+    for (const { pattern, value } of tokens) {
+        data = data.replace(pattern, value);
+    }
+    await fs_1.promises.writeFile(filePath, data, { encoding });
+};
 
 
 /***/ }),

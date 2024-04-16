@@ -1,5 +1,5 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
-module.exports = {
+const config = {
     preset: 'ts-jest',
     testEnvironment: 'node',
 
@@ -19,3 +19,5 @@ module.exports = {
     collectCoverageFrom: ['./src/**'],
     coverageReporters: ['json-summary', 'text', 'lcov']
 };
+
+export default config;
